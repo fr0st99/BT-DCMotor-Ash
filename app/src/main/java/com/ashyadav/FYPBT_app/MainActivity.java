@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
         final TextView textViewInfo = findViewById(R.id.textViewInfo);
-        final Button buttonToggle = findViewById(R.id.buttonToggle);
+        final Button buttonSwitch = findViewById(R.id.buttonSwitch);
         final Button buttonToggleTwo = findViewById(R.id.buttonToggleTwo);
-        buttonToggle.setEnabled(false);
+        buttonSwitch.setEnabled(false);
         buttonToggleTwo.setEnabled(false);
 
 
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                                 toolbar.setSubtitle("Connected to " + deviceID);
                                 progressBar.setVisibility(View.GONE);
                                 buttonConnect.setEnabled(true);
-                                buttonToggle.setEnabled(true);
+                                buttonSwitch.setEnabled(true);
                                 buttonToggleTwo.setEnabled(true);
                                 break;
                             case -1:
@@ -117,19 +117,42 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Button on/off toggle to start and stop DC motor
-        buttonToggle.setOnClickListener(new View.OnClickListener() {
+        buttonSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String cmdText = null;
-                String btnState = buttonToggle.getText().toString().toLowerCase();
+                String btnState = buttonSwitch.getText().toString().toLowerCase();
                 switch (btnState){
                     case "turn on":
-                        buttonToggle.setText("Turn Off");
+                        buttonSwitch.setText("Turn Off");
 
                         cmdText = "<turn on>";
                         break;
                     case "turn off":
-                        buttonToggle.setText("Turn On");
+                        buttonSwitch.setText("Turn On");
+
+                        cmdText = "<turn off>";
+                        break;
+
+                }
+                // Send command to Arduino board
+                connectedThread.write(cmdText);
+            }
+        });
+
+        buttonToggleTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String cmdText = null;
+                String btnState = buttonToggleTwo.getText().toString().toLowerCase();
+                switch (btnState){
+                    case "turn on":
+                        buttonToggleTwo.setText("Turn Off");
+
+                        cmdText = "<turn on>";
+                        break;
+                    case "turn off":
+                        buttonToggleTwo.setText("Turn On");
 
                         cmdText = "<turn off>";
                         break;
