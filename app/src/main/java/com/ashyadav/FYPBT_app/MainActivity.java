@@ -49,15 +49,17 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
         final TextView textViewInfo = findViewById(R.id.textViewInfo);
         final Button buttonToggle = findViewById(R.id.buttonToggle);
-        final Button buttonToggleDir = findViewById(R.id.buttonToggleDir);
+        final Button buttonToggleTwo = findViewById(R.id.buttonToggleTwo);
         buttonToggle.setEnabled(false);
+        buttonToggleTwo.setEnabled(false);
+
 
         // If a bluetooth device has been selected from BTConnectActivity
         deviceID = getIntent().getStringExtra("deviceName");
         if (deviceID != null){
             // Get the device address to make BT Connection
             deviceAddress = getIntent().getStringExtra("deviceAddress");
-            // Show progree and connection status
+            // Show progress and connection status
             toolbar.setSubtitle("Connecting to " + deviceID + "...");
             progressBar.setVisibility(View.VISIBLE);
             buttonConnect.setEnabled(false);
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 buttonConnect.setEnabled(true);
                                 buttonToggle.setEnabled(true);
+                                buttonToggleTwo.setEnabled(true);
                                 break;
                             case -1:
                                 toolbar.setSubtitle("Error: Unable to connect");
@@ -130,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
                         cmdText = "<turn off>";
                         break;
+
                 }
                 // Send command to Arduino board
                 connectedThread.write(cmdText);
@@ -137,27 +141,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        buttonToggleDir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String cmdText = null;
-                String btnState = buttonToggleDir.getText().toString().toLowerCase();
-                switch (btnState){
-                    case "Reverse":
-                        buttonToggleDir.setText("Reverse");
 
-                        cmdText = "<reverse>";
-                        break;
-                    case "Forward":
-                        buttonToggle.setText("Forward");
-                        // Command to turn off LED on Arduino. Must match with the command in Arduino code
-                        cmdText = "<forward>";
-                        break;
-                }
-                // Send command to Arduino board
-                connectedThread.write(cmdText);
-            }
-        });
+
+
     }
 
     /* ============================ Thread to Create Bluetooth Connection =================================== */
