@@ -140,21 +140,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /* Test button to check other functionality */
+
         buttonToggleTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String cmdText = null;
                 String btnState = buttonToggleTwo.getText().toString().toLowerCase();
                 switch (btnState){
-                    case "turn on":
-                        buttonToggleTwo.setText("Turn Off");
+                    case "reverse":
+                        buttonToggleTwo.setText("Forward");
 
-                        cmdText = "<turn on>";
+                        cmdText = "<reverse>";
                         break;
-                    case "turn off":
-                        buttonToggleTwo.setText("Turn On");
+                    case "forward":
+                        buttonToggleTwo.setText("Reverse");
 
-                        cmdText = "<turn off>";
+                        cmdText = "<forward>";
                         break;
 
                 }
