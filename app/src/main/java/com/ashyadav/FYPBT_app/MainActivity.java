@@ -48,10 +48,14 @@ public class MainActivity extends AppCompatActivity {
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
         final TextView textViewInfo = findViewById(R.id.textViewInfo);
-        final Button buttonSwitch = findViewById(R.id.buttonSwitch);
-        final Button buttonToggleTwo = findViewById(R.id.buttonToggleTwo);
-        buttonSwitch.setEnabled(false);
-        buttonToggleTwo.setEnabled(false);
+        final Button buttonOn = findViewById(R.id.buttonOn);
+        final Button buttonClockwise = findViewById(R.id.buttonClockwise);
+        final Button buttonAntiClockwise = findViewById(R.id.buttonAntiClockwise);
+        final Button buttonOff = findViewById(R.id.buttonOff);
+        buttonOn.setEnabled(false);
+        buttonOff.setEnabled(false);
+        buttonClockwise.setEnabled(false);
+        buttonAntiClockwise.setEnabled(false);
 
 
         // If a bluetooth device has been selected from BTConnectActivity
@@ -87,8 +91,10 @@ public class MainActivity extends AppCompatActivity {
                                 toolbar.setSubtitle("Connected to " + deviceID);
                                 progressBar.setVisibility(View.GONE);
                                 buttonConnect.setEnabled(true);
-                                buttonSwitch.setEnabled(true);
-                                buttonToggleTwo.setEnabled(true);
+                                buttonOn.setEnabled(true);
+                                buttonOff.setEnabled(true);
+                                buttonClockwise.setEnabled(true);
+                                buttonAntiClockwise.setEnabled(true);
                                 break;
                             case -1:
                                 toolbar.setSubtitle("Error: Unable to connect");
@@ -117,19 +123,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Button on/off toggle to start and stop DC motor
-        buttonSwitch.setOnClickListener(new View.OnClickListener() {
+        buttonOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String cmdText = null;
-                String btnState = buttonSwitch.getText().toString().toLowerCase();
+                String btnState = buttonOn.getText().toString().toLowerCase();
                 switch (btnState){
                     case "turn on":
-                        buttonSwitch.setText("Turn Off");
+
 
                         cmdText = "<turn on>";
                         break;
+
+
+                }
+                // Send command to Arduino board
+                connectedThread.write(cmdText);
+            }
+        });
+
+
+        buttonOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String cmdText = null;
+                String btnState = buttonOff.getText().toString().toLowerCase();
+                switch (btnState){
+                    
                     case "turn off":
-                        buttonSwitch.setText("Turn On");
 
                         cmdText = "<turn off>";
                         break;
@@ -140,23 +161,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /* Test button to check other functionality */
-
-        buttonToggleTwo.setOnClickListener(new View.OnClickListener() {
+        buttonClockwise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String cmdText = null;
-                String btnState = buttonToggleTwo.getText().toString().toLowerCase();
+                String btnState = buttonClockwise.getText().toString().toLowerCase();
                 switch (btnState){
-                    case "reverse":
-                        buttonToggleTwo.setText("Forward");
 
-                        cmdText = "<reverse>";
-                        break;
-                    case "forward":
-                        buttonToggleTwo.setText("Reverse");
+                    case "clockwise":
 
                         cmdText = "<forward>";
+                        break;
+
+                }
+                // Send command to Arduino board
+                connectedThread.write(cmdText);
+            }
+        });
+
+        /* Test button to check other functionality */
+
+        buttonAntiClockwise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String cmdText = null;
+                String btnState = buttonAntiClockwise.getText().toString().toLowerCase();
+                switch (btnState){
+
+                    case "anti-clockwise":
+
+                        cmdText = "<reverse>";
                         break;
 
                 }
