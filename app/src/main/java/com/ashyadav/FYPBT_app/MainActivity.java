@@ -6,7 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,11 +21,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
@@ -29,6 +36,15 @@ public class MainActivity extends AppCompatActivity {
 
     private String deviceID = null;
     private String deviceAddress;
+
+    /* For Sensor (Shake to view) */
+
+    private SensorManager AboutSensorMngr;
+    private float Acceleration;
+    private float CurrentAccel;
+    private float LastAccel;
+
+
     public static Handler handler;
     public static BluetoothSocket mmSocket;
     public static ConnectedThread connectedThread;
@@ -42,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // UI Initialization
+        /* For User Interface */
+
         final Button buttonConnect = findViewById(R.id.buttonConnect);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final ProgressBar progressBar = findViewById(R.id.progressBar);
@@ -122,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Button on/off toggle to start and stop DC motor
+        /* Button On for DC Motor */
         buttonOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,18 +148,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (btnState){
                     case "turn on":
 
-
                         cmdText = "<turn on>";
                         break;
-
-
                 }
                 // Send command to Arduino board
                 connectedThread.write(cmdText);
             }
         });
 
-
+        /* Button Off for DC Motor */
         buttonOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /* Button Clockwise for DC Motor */
         buttonClockwise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                 String btnState = buttonClockwise.getText().toString().toLowerCase();
                 switch (btnState){
 
-                    case "clockwise":
+                    case "forward":
 
                         cmdText = "<forward>";
                         break;
@@ -179,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /* Test button to check other functionality */
+        /* Button Anti-Clockwise for DC Motor */
 
         buttonAntiClockwise.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 String btnState = buttonAntiClockwise.getText().toString().toLowerCase();
                 switch (btnState){
 
-                    case "anti-clockwise":
+                    case "reverse":
 
                         cmdText = "<reverse>";
                         break;
@@ -199,13 +214,63 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        AboutSensorMngr = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Objects.requireNonNull(AboutSensorMngr).registerListener(AboutSensorListener, AboutSensorMngr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        Acceleration = 10f;
+        CurrentAccel = SensorManager.GRAVITY_EARTH;
+        LastAccel = SensorManager.GRAVITY_EARTH;
 
 
 
     }
 
-    /* ============================ Thread to Create Bluetooth Connection =================================== */
+    /* Sensor implementation. Shake to view App author */
+    /* Code adapted from my 3rd year project submitted for ED5042 */
+
+    private final SensorEventListener AboutSensorListener = new SensorEventListener() {
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            LastAccel = CurrentAccel;
+
+            CurrentAccel = (float) Math.sqrt((double) (x * x + y * y + z * z));
+
+            float delta = CurrentAccel - LastAccel;
+
+            Acceleration = Acceleration * 0.9f + delta;
+            if (Acceleration > 18) {
+                Toast.makeText(getApplicationContext(), "This App was developed by Ashutosh Yadav, 18249094", Toast.LENGTH_SHORT).show();
+            }
+        }
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
+
+
+    };
+    @Override
+    protected void onResume() {
+        AboutSensorMngr.registerListener(AboutSensorListener, AboutSensorMngr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause() {
+        AboutSensorMngr.unregisterListener(AboutSensorListener);
+        super.onPause();
+    }
+
+
+
+    /* Resources used for this section of code: https://examples.javacodegeeks.com/android/android-bluetooth-connection-example/ */
+    /* Accessed on 15/11/2021 by Ashutosh Yadav 18249094 */
+    /* Creating Bluetooth connection */
     public static class CreateConnectThread extends Thread {
 
         public CreateConnectThread(BluetoothAdapter bluetoothAdapter, String address) {

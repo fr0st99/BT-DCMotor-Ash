@@ -19,46 +19,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:subtitleTextColor="@android:color/background_light"
-        app:title="Bluetooth Connection"
+        app:title="Bluetooth Connection Status"
         app:titleTextColor="@android:color/background_light" />
 
     <Button
         android:id="@+id/buttonConnect"
         style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="147dp"
+        android:layout_height="63dp"
+        android:layout_marginEnd="16dp"
         android:text="Connect"
         android:textColor="@android:color/background_light"
         app:backgroundTint="#1C431D"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="@+id/toolbar" />
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/buttonOn"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
+        android:layout_width="210dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="116dp"
         android:text="Turn On"
         android:textSize="24sp"
         app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.038"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonOff"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="176dp"
+        android:layout_width="209dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="184dp"
         android:text="Turn Off"
         android:textSize="24sp"
         app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,53 +69,85 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="209dp"
         android:layout_height="56dp"
-        android:layout_marginTop="140dp"
-        android:text="Clockwise"
+        android:layout_marginTop="4dp"
+        android:text="Forward"
         android:textSize="24sp"
         app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.956"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/buttonOn" />
 
     <Button
         android:id="@+id/buttonAntiClockwise"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="257dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="216dp"
-        android:text="Anti-Clockwise"
+        android:layout_width="206dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="68dp"
+        android:text="Reverse"
         android:textSize="24sp"
         app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.953"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/buttonOn" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="66dp"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.676"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.001" />
 
     <TextView
         android:id="@+id/textViewInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="396dp"
+        android:layout_marginTop="96dp"
         android:layout_marginEnd="16dp"
         android:textAlignment="center"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+
+    <TextView
+        android:id="@+id/RPMValueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="132dp"
+        android:text="Please Enter RPM Value (Increments of 100)"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <EditText
+        android:id="@+id/userInputRPM"
+        android:layout_width="254dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="24dp"
+        android:inputType="textCapSentences|textAutoCorrect"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RPMValueText" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="599dp"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="429dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
