@@ -144,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String cmdText = null;
-                String btnState = buttonOn.getText().toString().toLowerCase();
-                switch (btnState){
+                String buttonStatus = buttonOn.getText().toString().toLowerCase();
+                switch (buttonStatus){
                     case "turn on":
 
                         cmdText = "<turn on>";
@@ -161,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String cmdText = null;
-                String btnState = buttonOff.getText().toString().toLowerCase();
-                switch (btnState){
+                String buttonStatus = buttonOff.getText().toString().toLowerCase();
+                switch (buttonStatus){
                     
                     case "turn off":
 
@@ -180,8 +180,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String cmdText = null;
-                String btnState = buttonClockwise.getText().toString().toLowerCase();
-                switch (btnState){
+                String buttonStatus = buttonClockwise.getText().toString().toLowerCase();
+                switch (buttonStatus){
 
                     case "forward":
 
@@ -200,8 +200,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String cmdText = null;
-                String btnState = buttonAntiClockwise.getText().toString().toLowerCase();
-                switch (btnState){
+                String buttonStatus = buttonAntiClockwise.getText().toString().toLowerCase();
+                switch (buttonStatus){
 
                     case "reverse":
 
