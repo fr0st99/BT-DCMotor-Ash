@@ -69,10 +69,24 @@ public class MainActivity extends AppCompatActivity {
         final Button buttonClockwise = findViewById(R.id.buttonClockwise);
         final Button buttonAntiClockwise = findViewById(R.id.buttonAntiClockwise);
         final Button buttonOff = findViewById(R.id.buttonOff);
+        final Button buttonRPM1 = findViewById(R.id.buttonRPM1);
+        final Button buttonRPM2 = findViewById(R.id.buttonRPM2);
+        final Button buttonRPM3 = findViewById(R.id.buttonRPM3);
+        final Button buttonRPM4 = findViewById(R.id.buttonRPM4);
+        final Button buttonRPM5 = findViewById(R.id.buttonRPM5);
+
+        /* Set buttons to not visible so they can't be clicked before BT connection */
+
         buttonOn.setEnabled(false);
         buttonOff.setEnabled(false);
         buttonClockwise.setEnabled(false);
         buttonAntiClockwise.setEnabled(false);
+        buttonRPM1.setEnabled(false);
+        buttonRPM2.setEnabled(false);
+        buttonRPM3.setEnabled(false);
+        buttonRPM4.setEnabled(false);
+        buttonRPM5.setEnabled(false);
+
 
 
         // If a bluetooth device has been selected from BTConnectActivity
@@ -112,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
                                 buttonOff.setEnabled(true);
                                 buttonClockwise.setEnabled(true);
                                 buttonAntiClockwise.setEnabled(true);
+                                buttonRPM1.setEnabled(true);
+                                buttonRPM2.setEnabled(true);
+                                buttonRPM3.setEnabled(true);
+                                buttonRPM4.setEnabled(true);
+                                buttonRPM5.setEnabled(true);
                                 break;
                             case -1:
                                 toolbar.setSubtitle("Error: Unable to connect");
@@ -213,6 +232,94 @@ public class MainActivity extends AppCompatActivity {
                 connectedThread.write(cmdText);
             }
         });
+
+        /* Button for RPM1 10,000RPM  */
+        buttonRPM1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String cmdText = null;
+                String buttonStatus = buttonRPM1.getText().toString().toLowerCase();
+                switch (buttonStatus){
+                    case "set":
+
+                        cmdText = "<speed one>";
+                        break;
+                }
+                // Send command to Arduino board
+                connectedThread.write(cmdText);
+            }
+        });
+
+
+        /* Button for RPM2 7,000RPM  */
+        buttonRPM2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String cmdText = null;
+                String buttonStatus = buttonRPM2.getText().toString().toLowerCase();
+                switch (buttonStatus){
+                    case "set":
+
+                        cmdText = "<speed two>";
+                        break;
+                }
+                // Send command to Arduino board
+                connectedThread.write(cmdText);
+            }
+        });
+
+        /* Button for RPM3 5,000RPM  */
+        buttonRPM3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String cmdText = null;
+                String buttonStatus = buttonRPM3.getText().toString().toLowerCase();
+                switch (buttonStatus){
+                    case "set":
+
+                        cmdText = "<speed three>";
+                        break;
+                }
+                // Send command to Arduino board
+                connectedThread.write(cmdText);
+            }
+        });
+
+        /* Button for RPM4 2,000RPM  */
+        buttonRPM4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String cmdText = null;
+                String buttonStatus = buttonRPM4.getText().toString().toLowerCase();
+                switch (buttonStatus){
+                    case "set":
+
+                        cmdText = "<speed four>";
+                        break;
+                }
+                // Send command to Arduino board
+                connectedThread.write(cmdText);
+            }
+        });
+
+        /* Button for RPM5 1,000RPM  */
+        buttonRPM5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String cmdText = null;
+                String buttonStatus = buttonRPM5.getText().toString().toLowerCase();
+                switch (buttonStatus){
+                    case "set":
+
+                        cmdText = "<speed five>";
+                        break;
+                }
+                // Send command to Arduino board
+                connectedThread.write(cmdText);
+            }
+        });
+
+
 
         AboutSensorMngr = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Objects.requireNonNull(AboutSensorMngr).registerListener(AboutSensorListener, AboutSensorMngr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
