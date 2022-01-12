@@ -41,12 +41,11 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="210dp"
         android:layout_height="56dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="120dp"
         android:text="Turn On"
         android:textSize="24sp"
         app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.038"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,37 +59,9 @@
         android:textSize="24sp"
         app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonClockwise"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="209dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="4dp"
-        android:text="Forward"
-        android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.956"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/buttonOn" />
-
-    <Button
-        android:id="@+id/buttonAntiClockwise"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="206dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="68dp"
-        android:text="Reverse"
-        android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/buttonOn" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -123,53 +94,39 @@
         android:id="@+id/RPMValueText1"
         android:layout_width="170dp"
         android:layout_height="30dp"
-        android:layout_marginBottom="4dp"
-        android:text="10,000 RPM"
         android:gravity="center"
+        android:text="10,000 RPM"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/buttonRPM1"
+        app:layout_constraintBottom_toTopOf="@id/buttonRPM1Forward"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.127"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/buttonRPM1"
+        android:id="@+id/buttonRPM2Reverse"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="210dp"
         android:layout_height="56dp"
-        android:layout_marginTop="452dp"
-        android:text="Set"
-        android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.076"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/RPMValueText2"
-        android:layout_width="170dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="4dp"
-        android:gravity="center"
-        android:text="7,000 RPM"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/buttonRPM2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.869"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonRPM2"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="210dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="452dp"
-        android:text="Set"
+        android:layout_marginTop="644dp"
+        android:text="Reverse"
         android:textSize="24sp"
         app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.902"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonRPM1Reverse"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="210dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="644dp"
+        android:text="Reverse"
+        android:textSize="24sp"
+        app:backgroundTint="#4CAF50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -178,25 +135,51 @@
         android:layout_width="170dp"
         android:layout_height="30dp"
         android:layout_marginBottom="4dp"
-        android:text="5,000 RPM"
         android:gravity="center"
+        android:text="2,500 RPM"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/buttonRPM3"
+        app:layout_constraintBottom_toTopOf="@id/buttonRPM3Forward"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.127"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/RPMValueText2"
+        android:layout_width="170dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="5,000 RPM"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/buttonRPM2Forward"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.869"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
-        android:id="@+id/buttonRPM3"
+        android:id="@+id/buttonRPM3Reverse"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="210dp"
         android:layout_height="56dp"
-        android:layout_marginTop="544dp"
-        android:text="Set"
+        android:layout_marginTop="852dp"
+        android:text="Reverse"
         android:textSize="24sp"
         app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.076"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonRPM2Forward"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="210dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="588dp"
+        android:text="Forward"
+        android:textSize="24sp"
+        app:backgroundTint="#4CAF50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.902"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -206,62 +189,118 @@
         android:layout_height="30dp"
         android:layout_marginBottom="4dp"
         android:gravity="center"
-        android:text="2,000 RPM"
+        android:text="1,250 RPM"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/buttonRPM4"
+        app:layout_constraintBottom_toTopOf="@id/buttonRPM4Forward"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.869"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/buttonRPM4"
+        android:id="@+id/buttonRPM4Forward"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="210dp"
         android:layout_height="56dp"
-        android:layout_marginTop="544dp"
-        android:text="Set"
+        android:layout_marginTop="792dp"
+        android:text="Forward"
         android:textSize="24sp"
         app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintHorizontal_bias="0.902"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/RPMValueText5"
-        android:layout_width="170dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="4dp"
-        android:gravity="center"
-        android:text="1,000 RPM"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/buttonRPM5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/buttonRPM5"
+        android:id="@+id/buttonRPM3Forward"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="210dp"
         android:layout_height="56dp"
-        android:layout_marginTop="652dp"
-        android:text="Set"
+        android:layout_marginTop="796dp"
+        android:text="Forward"
         android:textSize="24sp"
         app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonRPM4Reverse"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="210dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="852dp"
+        android:text="Reverse"
+        android:textSize="24sp"
+        app:backgroundTint="#4CAF50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.902"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonRPM1Forward"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="210dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="588dp"
+        android:text="Forward"
+        android:textSize="24sp"
+        app:backgroundTint="#4CAF50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/RPMValueText"
-        android:layout_width="170dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="336dp"
-        android:text="Select RPM"
-        android:textSize="24sp"
+        android:id="@+id/RPMCounter"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="132dp"
+        android:gravity="center"
+        android:text="0000"
+        android:textSize="24pt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.522"
+        app:layout_constraintHorizontal_bias="0.803"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
+        android:id="@+id/Dir"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="204dp"
+        android:gravity="center"
+        android:text="Off"
+        android:textSize="20pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.803"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
+        android:id="@+id/RPMDisplayCounter"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="132dp"
+        android:gravity="center"
+        android:text="@string/RPMDisplay"
+        android:textSize="13pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.248"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
+        android:id="@+id/DirDisplay"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="204dp"
+        android:gravity="center"
+        android:text="@string/DirDisplay"
+        android:textSize="13pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.248"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 

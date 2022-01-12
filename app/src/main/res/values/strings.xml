@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">FYP_Bluetooth Control 18249094</string>
+    <string name="RPMDisplay">Current RPM is:</string>
+    <string name="DirDisplay">Direction:</string>
+    <string name="RPMDisplayCounter">0000</string>
 
 </resources>
