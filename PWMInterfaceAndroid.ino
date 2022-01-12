@@ -28,18 +28,18 @@ void loop() {
   }
 
 // Change motor direction
-  if (msg == "<reverse>"){
-    motor_dir = !motor_dir;
-    analogWrite(pwm2, speed);
-    Serial.println("DC motor is in reverse\n");
-    msg = ""; // reset command
-  } else {
-    if (msg == "<forward>"){
-      analogWrite(pwm1, speed);
-      Serial.println("DC motor is in forward\n"); 
-      msg = ""; 
-    }
-  }
+//  if (msg == "<reverse>"){
+//    motor_dir = !motor_dir;
+//    analogWrite(pwm2, speed);
+//    Serial.println("DC motor is in reverse\n");
+//    msg = ""; // reset command
+//  } else {
+//if (msg == "<forward>"){
+//      analogWrite(pwm1, speed);
+//      Serial.println("DC motor is in forward\n"); 
+//      msg = ""; 
+//    }
+//  }
 
   // Turn on DC motor in Arduino board
   if (msg == "<turn on>"){
@@ -52,36 +52,66 @@ void loop() {
       analogWrite(pwm2,0);
       Serial.println("DC motor is OFF\n"); 
       msg = ""; 
-    } else {
-    if (msg == "<speed one>"){
-      analogWrite(pwm1, 200);
-      Serial.println("DC motor is set to speed 1\n"); 
-      msg = ""; 
-    } else {
-    if (msg == "<speed two>"){
-      analogWrite(pwm1, 150);
-      Serial.println("DC motor is set to speed 2\n"); 
-      msg = ""; 
-    } else {
-    if (msg == "<speed three>"){
-      analogWrite(pwm1, 100);
-      Serial.println("DC motor is set to speed 3\n"); 
-      msg = ""; 
-    } else {
-    if (msg == "<speed four>"){
-      analogWrite(pwm1, 68.7);
-      Serial.println("DC motor is set to speed 4\n"); 
-      msg = ""; 
-    } else {
-    if (msg == "<speed five>"){
-      analogWrite(pwm1, 50);
-      Serial.println("DC motor is set to speed 5\n"); 
-      msg = ""; 
-          }
-       }
-       }
-      }
     }
   }
-}
+
+  // Speed 1 Controls 
+  if (msg == "<speed one forward>"){
+      analogWrite(pwm1, 200);
+      analogWrite(pwm2, 0);
+      Serial.println("DC motor is set to speed 1\n"); 
+      msg = ""; 
+  } else {
+    if (msg == "<speed one reverse>"){
+      analogWrite(pwm1,0);
+      analogWrite(pwm2, 200);
+      Serial.println("DC motor is set to speed 1 reverse\n"); 
+      msg = ""; 
+    }
+  }
+
+ // Speed 2 Controls 
+ if (msg == "<speed two forward>"){
+      analogWrite(pwm1, 150);
+      analogWrite(pwm2, 0);
+      Serial.println("DC motor is set to speed 2 forward\n"); 
+      msg = ""; 
+ } else {
+    if (msg == "<speed two reverse>"){
+      analogWrite(pwm1, 0);
+      analogWrite(pwm2, 150);
+      Serial.println("DC motor is set to speed 2 reverse\n"); 
+      msg = ""; 
+    }
+  }
+
+ // Speed 3 Controls 
+ if (msg == "<speed three forward>"){
+      analogWrite(pwm1, 100);
+      analogWrite(pwm2, 0);
+      Serial.println("DC motor is set to speed 3 forward\n"); 
+      msg = ""; 
+ } else {
+    if (msg == "<speed three reverse>"){
+      analogWrite(pwm1, 0);
+      analogWrite(pwm2, 100);
+      Serial.println("DC motor is set to speed 3 reverse\n"); 
+      msg = ""; 
+    }
+  }
+
+ // Speed 4 Controls 
+ if (msg == "<speed four forward>"){
+      analogWrite(pwm1, 69);
+      analogWrite(pwm2, 0);
+      Serial.println("DC motor is set to speed 4 forward\n"); 
+      msg = ""; 
+ } else {
+    if (msg == "<speed four reverse>"){
+      analogWrite(pwm1, 0);
+      analogWrite(pwm2, 69);
+      Serial.println("DC motor is set to speed 4 reverse\n"); 
+      msg = ""; 
+    }
+  }
 }
