@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         final Button buttonRPM4Forward = findViewById(R.id.buttonRPM4Forward);
         final Button buttonRPM4Reverse = findViewById(R.id.buttonRPM4Reverse);
 
+        final Button aboutButton = findViewById(R.id.aboutButton);
+
 
         /* Set buttons to not visible so they can't be clicked before BT connection */
 
@@ -400,6 +402,19 @@ public class MainActivity extends AppCompatActivity {
                 // Send command to Arduino board
                 connectedThread.write(cmdText);
             }
+        });
+
+        /* About app button */
+        aboutButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(MainActivity.this, AboutApp.class));
+
+            }
+
+
         });
 
         

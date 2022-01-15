@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.ashyadav.FYPBT_app.BTConnectActivity"></activity>
+        <activity android:name="com.ashyadav.FYPBT_app.AboutApp"></activity>
         <activity android:name="com.ashyadav.FYPBT_app.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
