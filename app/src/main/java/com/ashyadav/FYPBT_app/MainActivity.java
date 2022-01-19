@@ -451,10 +451,19 @@ public class MainActivity extends AppCompatActivity {
 
             public void onStopTrackingTouch(SeekBar seekBar) {
                 final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+                final TextView DirectionText = (TextView) findViewById(R.id.Dir);
+
+                /* Display motor speed value as a popup (mostly for testing purposes) */
+
                 Toast.makeText(MainActivity.this, "DC Motor Speed Value :" + progressValue, Toast.LENGTH_SHORT).show();
                 cmdText = "<speed changed>" + progressValue + "\n";
                 connectedThread.write(cmdText);
+
+                /* Set speed and direction values into the display */
+
                 RPMDisplay.setText(""+progressValue);
+                DirectionText.setText("Forward");
+
             }
         });
 
