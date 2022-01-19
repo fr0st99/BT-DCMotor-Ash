@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         final Button buttonRPM4Reverse = findViewById(R.id.buttonRPM4Reverse);
 
         final Button aboutButton = findViewById(R.id.aboutButton);
+
+        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
 
 
         /* Set buttons to not visible so they can't be clicked before BT connection */
@@ -415,6 +418,25 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
+        });
+
+        /* Change Value of DC motor speed by slider from 0-255 */
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progressValue = 0;
+
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progressValue = progress;
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(MainActivity.this, "DC Motor Speed Value :" + progressValue,
+                        Toast.LENGTH_SHORT).show();
+            }
         });
 
         
