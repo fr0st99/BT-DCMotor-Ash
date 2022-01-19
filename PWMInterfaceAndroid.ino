@@ -4,6 +4,10 @@
 SoftwareSerial bluetoothSerial(4,5);
 String msg,cmd;
 boolean motor_dir = 0;
+int speed_value = 0;
+int i = 0;
+
+
 
 #define pwm1     9   //input 2
 #define pwm2    10   //input 1
@@ -24,8 +28,22 @@ void loop() {
   // To read message received from other Bluetooth Device
   if (bluetoothSerial.available() > 0){ // Check if there is data coming
     msg = bluetoothSerial.readString(); // Read the message as String
+    speed_value = bluetoothSerial.read();   //reading the string sent from master device
+    speed_value++;  
     Serial.println("Android Command: " + msg);
   }
+
+
+  if (msg.substring(0,15) == "<speed changed>"){
+    Serial.println(msg.substring(15).toInt());
+    analogWrite(pwm1, msg.substring(15).toInt());
+    analogWrite(pwm2, 0);
+    Serial.println("DC Motor speed is controlled by slider now\n"); 
+    msg = ""; 
+  }
+
+
+
 
 // Change motor direction
 //  if (msg == "<reverse>"){
