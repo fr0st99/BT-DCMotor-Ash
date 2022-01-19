@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         buttonRPM2Forward.setEnabled(false);
         buttonRPM3Forward.setEnabled(false);
         buttonRPM4Forward.setEnabled(false);
+        seekBar.setEnabled(false);
 
         /* Reverse buttons */
 
@@ -154,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
                                 buttonRPM2Reverse.setEnabled(true);
                                 buttonRPM3Reverse.setEnabled(true);
                                 buttonRPM4Reverse.setEnabled(true);
+
+                                /* Seek bar for DC motor control enabler */
+
+                                seekBar.setEnabled(true);
 
                                 break;
                             case -1:
@@ -423,19 +428,33 @@ public class MainActivity extends AppCompatActivity {
         /* Change Value of DC motor speed by slider from 0-255 */
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progressValue = 0;
+            String progressValue = null;
+            String cmdText = null;
 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                progressValue = progress;
+                Integer temp = progress;
+                progressValue = temp.toString();
+
+                cmdText = "<speed changed>" + progressValue + "\n";
+                connectedThread.write(cmdText);
+
+
+
+
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
+
+
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(MainActivity.this, "DC Motor Speed Value :" + progressValue,
-                        Toast.LENGTH_SHORT).show();
+                final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+                Toast.makeText(MainActivity.this, "DC Motor Speed Value :" + progressValue, Toast.LENGTH_SHORT).show();
+                cmdText = "<speed changed>" + progressValue + "\n";
+                connectedThread.write(cmdText);
+                RPMDisplay.setText(""+progressValue);
             }
         });
 
