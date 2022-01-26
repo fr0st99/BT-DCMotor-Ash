@@ -514,20 +514,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        
-
-
-
-
-
         AboutSensorMngr = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Objects.requireNonNull(AboutSensorMngr).registerListener(AboutSensorListener, AboutSensorMngr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
         Acceleration = 10f;
         CurrentAccel = SensorManager.GRAVITY_EARTH;
         LastAccel = SensorManager.GRAVITY_EARTH;
-
-
 
     }
 
@@ -542,8 +534,6 @@ public class MainActivity extends AppCompatActivity {
             float y = event.values[1];
             float z = event.values[2];
             LastAccel = CurrentAccel;
-
-
 
             CurrentAccel = (float) Math.sqrt((double) (x * x + y * y + z * z));
 
@@ -568,9 +558,7 @@ public class MainActivity extends AppCompatActivity {
                 beepSound.start();
                 connectedThread.write("<turn off>");
 
-
             }
-
         }
 
         @Override
@@ -592,8 +580,6 @@ public class MainActivity extends AppCompatActivity {
         AboutSensorMngr.unregisterListener(AboutSensorListener);
         super.onPause();
     }
-
-
 
     /* Resources used for this section of code: https://examples.javacodegeeks.com/android/android-bluetooth-connection-example/ */
     /* Accessed on 15/11/2021 by Ashutosh Yadav 18249094 */
