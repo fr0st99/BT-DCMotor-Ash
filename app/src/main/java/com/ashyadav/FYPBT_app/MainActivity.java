@@ -8,15 +8,18 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -86,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
 
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
 
+        SeekBar seekBarReverse = (SeekBar) findViewById(R.id.seekBarReverse);
+
 
         /* Set buttons to not visible so they can't be clicked before BT connection */
 
@@ -96,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         buttonRPM3Forward.setEnabled(false);
         buttonRPM4Forward.setEnabled(false);
         seekBar.setEnabled(false);
+        seekBarReverse.setEnabled(false);
 
         /* Reverse buttons */
 
@@ -134,6 +140,14 @@ public class MainActivity extends AppCompatActivity {
         handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg){
+
+
+                /* Sound effects for success and failure of BT connection - royalty free sounds from https://www.soundjay.com */
+
+                final MediaPlayer successMP = MediaPlayer.create(MainActivity.this,R.raw.btsuccess);
+                final MediaPlayer failMP = MediaPlayer.create(MainActivity.this,R.raw.btfail);
+
+
                 switch (msg.what){
                     case CONNECTING_STATUS:
                         switch(msg.arg1){
@@ -143,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                                 buttonConnect.setEnabled(true);
                                 buttonOn.setEnabled(true);
                                 buttonOff.setEnabled(true);
+                                successMP.start();
 
                                 /* Forward button enablers */
                                 buttonRPM1Forward.setEnabled(true);
@@ -159,12 +174,14 @@ public class MainActivity extends AppCompatActivity {
                                 /* Seek bar for DC motor control enabler */
 
                                 seekBar.setEnabled(true);
+                                seekBarReverse.setEnabled(true);
 
                                 break;
                             case -1:
                                 toolbar.setSubtitle("Error: Unable to connect");
                                 progressBar.setVisibility(View.GONE);
                                 buttonConnect.setEnabled(true);
+                                failMP.start();
                                 break;
                         }
                         break;
@@ -425,7 +442,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        /* Change Value of DC motor speed by slider from 0-255 */
+        /* Change Value of DC motor speed by slider from 0-255 FORWARD POSITION */
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             String progressValue = null;
@@ -435,17 +452,11 @@ public class MainActivity extends AppCompatActivity {
                 Integer temp = progress;
                 progressValue = temp.toString();
 
-                cmdText = "<speed changed>" + progressValue + "\n";
-                connectedThread.write(cmdText);
-
-
-
 
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
-
 
             }
 
@@ -463,6 +474,42 @@ public class MainActivity extends AppCompatActivity {
 
                 RPMDisplay.setText(""+progressValue);
                 DirectionText.setText("Forward");
+
+            }
+        });
+
+        /* Change Value of DC motor speed by slider from 0-255 REVERSE POSITION */
+
+        seekBarReverse.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            String progressValue = null;
+            String cmdText = null;
+
+            public void onProgressChanged(SeekBar seekBarReverse, int progress, boolean fromUser) {
+                Integer temp = progress;
+                progressValue = temp.toString();
+
+
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBarReverse) {
+                // TODO Auto-generated method stub
+
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBarReverse) {
+                final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+                final TextView DirectionText = (TextView) findViewById(R.id.Dir);
+
+                /* Display motor speed value as a popup (mostly for testing purposes) */
+
+                Toast.makeText(MainActivity.this, "DC Motor Speed Value :" + progressValue, Toast.LENGTH_SHORT).show();
+                cmdText = "<speed reverse>" + progressValue + "\n";
+                connectedThread.write(cmdText);
+
+                /* Set speed and direction values into the display */
+
+                RPMDisplay.setText(""+progressValue);
+                DirectionText.setText("Reverse");
 
             }
         });
@@ -496,15 +543,36 @@ public class MainActivity extends AppCompatActivity {
             float z = event.values[2];
             LastAccel = CurrentAccel;
 
+
+
             CurrentAccel = (float) Math.sqrt((double) (x * x + y * y + z * z));
 
             float delta = CurrentAccel - LastAccel;
 
             Acceleration = Acceleration * 0.9f + delta;
+
             if (Acceleration > 18) {
-                Toast.makeText(getApplicationContext(), "This App was developed by Ashutosh Yadav, 18249094", Toast.LENGTH_SHORT).show();
+
+                final MediaPlayer beepSound = MediaPlayer.create(MainActivity.this,R.raw.beep);
+
+                final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+                final TextView DirectionText = (TextView) findViewById(R.id.Dir);
+                Toast toast = Toast.makeText(getApplicationContext(), "Fall Detected! DC Motor turned off", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                RPMDisplay.setText("0");
+                DirectionText.setText("Off");
+
+                // Send command to Arduino board
+
+                beepSound.start();
+                connectedThread.write("<turn off>");
+
+
             }
+
         }
+
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
         }

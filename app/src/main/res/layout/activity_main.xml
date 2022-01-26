@@ -260,11 +260,12 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="210dp"
         android:layout_height="56dp"
-        android:layout_marginTop="1164dp"
+        android:layout_marginTop="484dp"
         android:text="About"
         android:textSize="24sp"
         app:backgroundTint="#1AB4CF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -324,17 +325,32 @@
         android:id="@+id/seekBar"
         android:layout_width="682dp"
         android:layout_height="27dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginTop="116dp"
         android:max="255"
+        android:min="0"
+        android:progress="0"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonRPM4Reverse" />
+
+    <SeekBar
+        android:id="@+id/seekBarReverse"
+        android:layout_width="682dp"
+        android:layout_height="27dp"
+        android:layout_marginTop="100dp"
+        android:max="255"
+        android:min="0"
+        android:progress="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/seekBar" />
 
     <TextView
         android:id="@+id/minText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="28dp"
         android:text="Min"
         android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -346,7 +362,7 @@
         android:id="@+id/maxText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="28dp"
         android:text="Max"
         android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -355,13 +371,24 @@
         app:layout_constraintTop_toBottomOf="@id/seekBar" />
 
     <TextView
-        android:id="@+id/sliderControlText"
+        android:id="@+id/sliderForwardText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="DC Motor Slider Control"
+        android:layout_marginBottom="32dp"
+        android:text="Forward"
         android:textSize="26dp"
         app:layout_constraintBottom_toTopOf="@id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/sliderReverseText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Reverse"
+        android:textSize="26dp"
+        app:layout_constraintBottom_toTopOf="@id/seekBarReverse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
