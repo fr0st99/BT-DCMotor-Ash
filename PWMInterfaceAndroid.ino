@@ -42,6 +42,15 @@ void loop() {
     msg = ""; 
   }
 
+   if (msg.substring(0,15) == "<speed reverse>"){
+    Serial.println(msg.substring(15).toInt());
+    analogWrite(pwm1, 0);
+    analogWrite(pwm2, msg.substring(15).toInt());
+    Serial.println("DC Motor speed is in reverse and controlled by slider now\n"); 
+    msg = ""; 
+  }
+
+
 
 
 
@@ -72,6 +81,29 @@ void loop() {
       msg = ""; 
     }
   }
+
+  if (msg == "<turn off><turn off>"){
+      analogWrite(pwm1, 0);
+      analogWrite(pwm2,0);
+      Serial.println("DC motor is OFF\n"); 
+      msg = ""; 
+    }
+
+
+    if (msg == "<turn off><turn off><turn off>"){
+      analogWrite(pwm1, 0);
+      analogWrite(pwm2,0);
+      Serial.println("DC motor is OFF\n"); 
+      msg = ""; 
+    }
+
+    if (msg == "<turn off><turn off><turn off><turn off>"){
+      analogWrite(pwm1, 0);
+      analogWrite(pwm2,0);
+      Serial.println("DC motor is OFF\n"); 
+      msg = ""; 
+    }
+
 
   // Speed 1 Controls 
   if (msg == "<speed one forward>"){
