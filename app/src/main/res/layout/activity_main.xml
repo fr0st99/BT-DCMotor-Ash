@@ -275,7 +275,7 @@
         android:layout_height="72dp"
         android:layout_marginTop="132dp"
         android:gravity="center"
-        android:text="null"
+        android:text="null value"
         android:textSize="24pt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.803"
