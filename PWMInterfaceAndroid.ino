@@ -4,7 +4,7 @@
 SoftwareSerial bluetoothSerial(4,5);
 
 
-String msg,cmd;
+String msg,cmd,sendmsg;
 boolean motor_dir = 0;
 int speed_value = 0;
 int i = 0;
@@ -49,6 +49,9 @@ void loop() {
   rev = 0;
   Serial.println(rpm_val);
   attachInterrupt(1, INTERRUPT, RISING);
+  Serial.println("sending data by BT to app");
+  bluetoothSerial.print(rpm_val);
+  delay(20);
   
   // To read message received from other Bluetooth Device
   if (bluetoothSerial.available() > 0){ // Check if there is data coming
@@ -57,6 +60,9 @@ void loop() {
     speed_value++;  
     Serial.println("Android Command: " + msg);
   }
+
+
+ 
 
 
   if (msg.substring(0,15) == "<speed changed>"){
