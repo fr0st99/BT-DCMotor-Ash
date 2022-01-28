@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         final Button buttonOn = findViewById(R.id.buttonOn);
         final Button buttonOff = findViewById(R.id.buttonOff);
 
+        final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
+
         final Button buttonRPM1Forward = findViewById(R.id.buttonRPM1Forward);
         final Button buttonRPM1Reverse = findViewById(R.id.buttonRPM1Reverse);
 
@@ -148,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 final MediaPlayer failMP = MediaPlayer.create(MainActivity.this,R.raw.btfail);
 
 
+
                 switch (msg.what){
                     case CONNECTING_STATUS:
                         switch(msg.arg1){
@@ -189,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
 
+
                         break;
                 }
             }
@@ -208,7 +212,9 @@ public class MainActivity extends AppCompatActivity {
         buttonOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String cmdText = null;
+                final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
                 String buttonStatus = buttonOn.getText().toString().toLowerCase();
                 Toast.makeText(getApplicationContext(), "The DC Motor is on and receiving power", Toast.LENGTH_SHORT).show();
                 switch (buttonStatus){
@@ -219,12 +225,24 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // Send command to Arduino board
                 connectedThread.write(cmdText);
+                connectedThread.beginListenForData();
+
+
+
+
+
+
+
+
+
             }
         });
 
+
+
         /* Button Off for DC Motor */
         buttonOff.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
             final TextView DirectionText = (TextView) findViewById(R.id.Dir);
             @Override
             public void onClick(View view) {
@@ -249,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Button for RPM1 10,000RPM Clockwise  */
         buttonRPM1Forward.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
             final TextView DirectionText = (TextView) findViewById(R.id.Dir);
             @Override
             public void onClick(View view) {
@@ -271,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Button for RPM1 10,000RPM Anti-Clockwise  */
         buttonRPM1Reverse.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
             final TextView DirectionText = (TextView) findViewById(R.id.Dir);
             @Override
             public void onClick(View view) {
@@ -294,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Button for RPM2 5,000RPM Clockwise */
         buttonRPM2Forward.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
             final TextView DirectionText = (TextView) findViewById(R.id.Dir);
             @Override
             public void onClick(View view) {
@@ -316,7 +334,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Button for RPM2 5,000RPM Anti-Clockwise */
         buttonRPM2Reverse.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
             final TextView DirectionText = (TextView) findViewById(R.id.Dir);
             @Override
             public void onClick(View view) {
@@ -338,7 +356,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Button for RPM3 2,500RPM Clockwise */
         buttonRPM3Forward.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
             final TextView DirectionText = (TextView) findViewById(R.id.Dir);
 
             @Override
@@ -361,7 +379,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Button for RPM3 2,500RPM Anti-Clockwise */
         buttonRPM3Reverse.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
             final TextView DirectionText = (TextView) findViewById(R.id.Dir);
 
             @Override
@@ -385,7 +403,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Button for RPM4 1,250RPM Clockwise */
         buttonRPM4Forward.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
             final TextView DirectionText = (TextView) findViewById(R.id.Dir);
 
             @Override
@@ -408,7 +426,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Button for RPM4 1,250RPM Anti-Clockwise */
         buttonRPM4Reverse.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
             final TextView DirectionText = (TextView) findViewById(R.id.Dir);
 
             @Override
@@ -461,18 +479,19 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-                final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
                 final TextView DirectionText = (TextView) findViewById(R.id.Dir);
-
+                final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
                 /* Display motor speed value as a popup (mostly for testing purposes) */
 
                 Toast.makeText(MainActivity.this, "DC Motor Speed Value :" + progressValue, Toast.LENGTH_SHORT).show();
                 cmdText = "<speed changed>" + progressValue + "\n";
                 connectedThread.write(cmdText);
 
+                connectedThread.beginListenForData();
+                //RPMDisplay.setText();
+
                 /* Set speed and direction values into the display */
 
-                RPMDisplay.setText(""+progressValue);
                 DirectionText.setText("Forward");
 
             }
@@ -497,7 +516,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             public void onStopTrackingTouch(SeekBar seekBarReverse) {
-                final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
                 final TextView DirectionText = (TextView) findViewById(R.id.Dir);
 
                 /* Display motor speed value as a popup (mostly for testing purposes) */
@@ -507,8 +525,6 @@ public class MainActivity extends AppCompatActivity {
                 connectedThread.write(cmdText);
 
                 /* Set speed and direction values into the display */
-
-                RPMDisplay.setText(""+progressValue);
                 DirectionText.setText("Reverse");
 
             }
@@ -545,7 +561,7 @@ public class MainActivity extends AppCompatActivity {
 
                 final MediaPlayer beepSound = MediaPlayer.create(MainActivity.this,R.raw.beep);
 
-                final TextView RPMDisplay = (TextView) findViewById(R.id.RPMCounter);
+                final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
                 final TextView DirectionText = (TextView) findViewById(R.id.Dir);
                 Toast toast = Toast.makeText(getApplicationContext(), "Fall Detected! DC Motor turned off", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
@@ -586,22 +602,15 @@ public class MainActivity extends AppCompatActivity {
     /* Creating Bluetooth connection */
     public static class CreateConnectThread extends Thread {
 
+
         public CreateConnectThread(BluetoothAdapter bluetoothAdapter, String address) {
-            /*
-            Use a temporary object that is later assigned to mmSocket
-            because mmSocket is final.
-             */
+
             BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(address);
             BluetoothSocket tmp = null;
             UUID uuid = bluetoothDevice.getUuids()[0].getUuid();
 
             try {
-                /*
-                Get a BluetoothSocket to connect with the given BluetoothDevice.
-                Due to Android device varieties,the method below may not work fo different devices.
-                You should try using other methods i.e. :
-                tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
-                 */
+
                 tmp = bluetoothDevice.createInsecureRfcommSocketToServiceRecord(uuid);
 
             } catch (IOException e) {
@@ -648,11 +657,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     /* =============================== Thread for Data Transfer =========================================== */
     public static class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
+        boolean stopThread;
+        byte[] buffer = new byte[1024];
+
 
         public ConnectedThread(BluetoothSocket socket) {
             mmSocket = socket;
@@ -670,16 +683,15 @@ public class MainActivity extends AppCompatActivity {
             mmOutStream = tmpOut;
         }
 
-        public void run() {
+
+
+       public void run() {
             byte[] buffer = new byte[1024];  // buffer store for the stream
             int bytes = 0; // bytes returned from read()
             // Keep listening to the InputStream until an exception occurs
             while (true) {
                 try {
-                    /*
-                    Read from the InputStream from Arduino until termination character is reached.
-                    Then send the whole String message to GUI Handler.
-                     */
+
                     buffer[bytes] = (byte) mmInStream.read();
                     String readMessage;
                     if (buffer[bytes] == '\n'){
@@ -706,6 +718,52 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("Send Error","Unable to send message",e);
             }
         }
+
+
+        public void beginListenForData()
+        {
+            final Handler handler = new Handler();
+            stopThread = false;
+            buffer = new byte[1024];
+            Thread thread  = new Thread(() -> {
+                while(!Thread.currentThread().isInterrupted() && !stopThread)
+                {
+                    try
+                    {
+                        int byteCount = mmInStream.available();
+                        if(byteCount > 0)
+                        {
+                            byte[] rawBytes = new byte[byteCount];
+                            mmInStream.read(rawBytes);
+                            final String string=new String(rawBytes,"UTF-8");
+                            //final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
+                            handler.post(new Runnable() {
+                                public void run() {
+
+
+                                    System.out.println(string);
+
+                                    //RPMDisplay.setText(string);
+
+
+
+                                }
+                            });
+
+                        }
+                    }
+                    catch (IOException ex)
+                    {
+                        stopThread = true;
+                    }
+                }
+            });
+
+            thread.start();
+        }
+
+
+        
 
         /* Call this from the main activity to shutdown the connection */
         public void cancel() {
