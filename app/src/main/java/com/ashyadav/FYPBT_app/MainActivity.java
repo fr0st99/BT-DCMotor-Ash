@@ -1,9 +1,7 @@
 package com.ashyadav.FYPBT_app;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import static android.content.ContentValues.TAG;
 
-import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -11,7 +9,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.AssetFileDescriptor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -30,6 +27,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,9 +37,10 @@ import java.io.OutputStream;
 import java.util.Objects;
 import java.util.UUID;
 
-import static android.content.ContentValues.TAG;
-
 public class MainActivity extends AppCompatActivity {
+
+
+
 
     private String deviceID = null;
     private String deviceAddress;
@@ -50,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     private float Acceleration;
     private float CurrentAccel;
     private float LastAccel;
-    //final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
 
 
     public static Handler handler;
@@ -59,15 +59,30 @@ public class MainActivity extends AppCompatActivity {
     public static CreateConnectThread createConnectThread;
 
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
-    private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
-    private final static int RPM_READ = 3;
 
-    @SuppressLint("HandlerLeak")
-    @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
+
+        BroadcastReceiver msgReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // Get extra data included in the Intent
+                String rpmValue = intent.getStringExtra("theMessage");
+                Log.d("receiver", "Received data  " + rpmValue);
+                TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
+                RPMDisplay.setText(rpmValue);
+            }
+        };
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver,new IntentFilter("rpmData"));
+
+
+
+
 
         /* For User Interface */
 
@@ -78,8 +93,6 @@ public class MainActivity extends AppCompatActivity {
         final TextView textViewInfo = findViewById(R.id.textViewInfo);
         final Button buttonOn = findViewById(R.id.buttonOn);
         final Button buttonOff = findViewById(R.id.buttonOff);
-
-        final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
 
         final Button buttonRPM1Forward = findViewById(R.id.buttonRPM1Forward);
         final Button buttonRPM1Reverse = findViewById(R.id.buttonRPM1Reverse);
@@ -95,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
         final Button aboutButton = findViewById(R.id.aboutButton);
 
-        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+        SeekBar seekBar = findViewById(R.id.seekBar);
 
-        SeekBar seekBarReverse = (SeekBar) findViewById(R.id.seekBarReverse);
+        SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
 
 
         /* Set buttons to not visible so they can't be clicked before BT connection */
@@ -140,9 +153,7 @@ public class MainActivity extends AppCompatActivity {
             createConnectThread.start();
         }
 
-        /*
-        Second most important piece of Code. GUI Handler
-         */
+
         handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
@@ -192,12 +203,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
 
-                    case MESSAGE_READ:
-                        String arduinoMsg = msg.obj.toString(); // Read message from Arduino
-                        RPMDisplay.setText(arduinoMsg);
-                        System.out.println("Testing msg" +arduinoMsg);
 
-                        break;
                 }
 
             }
@@ -241,10 +247,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // Send command to Arduino board
                 connectedThread.write(cmdText);
-                connectedThread.beginListenForData();
-                RPMDisplay.setText("Test" +MESSAGE_READ);
-
-
 
             }
         });
@@ -255,8 +257,8 @@ public class MainActivity extends AppCompatActivity {
 
         /* Button Off for DC Motor */
         buttonOff.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
-            final TextView DirectionText = (TextView) findViewById(R.id.Dir);
+            final TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
+            final TextView DirectionText = findViewById(R.id.Dir);
             @Override
             public void onClick(View view) {
                 String cmdText = null;
@@ -392,8 +394,8 @@ public class MainActivity extends AppCompatActivity {
 
         /* Button for RPM3 2,500RPM Anti-Clockwise */
         buttonRPM3Reverse.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
-            final TextView DirectionText = (TextView) findViewById(R.id.Dir);
+            final TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
+            final TextView DirectionText = findViewById(R.id.Dir);
 
             @Override
             public void onClick(View view) {
@@ -416,8 +418,8 @@ public class MainActivity extends AppCompatActivity {
 
         /* Button for RPM4 1,250RPM Clockwise */
         buttonRPM4Forward.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
-            final TextView DirectionText = (TextView) findViewById(R.id.Dir);
+            final TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
+            final TextView DirectionText = findViewById(R.id.Dir);
 
             @Override
             public void onClick(View view) {
@@ -499,9 +501,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "DC Motor Speed Value :" + progressValue, Toast.LENGTH_SHORT).show();
                 cmdText = "<speed changed>" + progressValue + "\n";
                 connectedThread.write(cmdText);
-
-                connectedThread.beginListenForData();
-                //RPMDisplay.setText();
 
                 /* Set speed and direction values into the display */
 
@@ -616,10 +615,17 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    /* Resources used for this section of code: https://examples.javacodegeeks.com/android/android-bluetooth-connection-example/ */
-    /* Accessed on 15/11/2021 by Ashutosh Yadav 18249094 */
+    /* Resources used for this section of code: https://examples.javacodegeeks.com/android/android-bluetooth-connection-example/
+
+    https://stackoverflow.com/questions/8802157/how-to-use-localbroadcastmanager
+
+    Credit to CodingWithMitch YouTube tutorial on threads and Bluetooth Connections https://www.youtube.com/watch?v=lwBhDnvKGd8
+
+     */
+
+
     /* Creating Bluetooth connection */
-    public static class CreateConnectThread extends Thread {
+    public class CreateConnectThread extends Thread {
 
 
         public CreateConnectThread(BluetoothAdapter bluetoothAdapter, String address) {
@@ -639,17 +645,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void run() {
-            // Cancel discovery because it otherwise slows down the connection.
+            /* Cancel discovery otherwise connection slows down */
+
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             bluetoothAdapter.cancelDiscovery();
             try {
-                // Connect to the remote device through the socket. This call blocks
-                // until it succeeds or throws an exception.
+
                 mmSocket.connect();
                 Log.e("Status", "Device connected");
                 handler.obtainMessage(CONNECTING_STATUS, 1, -1).sendToTarget();
             } catch (IOException connectException) {
-                // Unable to connect; close the socket and return.
+
                 try {
                     mmSocket.close();
                     Log.e("Status", "Cannot connect to device");
@@ -660,13 +666,10 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            // The connection attempt succeeded. Perform work associated with
-            // the connection in a separate thread.
             connectedThread = new ConnectedThread(mmSocket);
             connectedThread.run();
         }
 
-        // Closes the client socket and causes the thread to finish.
         public void cancel() {
             try {
                 mmSocket.close();
@@ -680,12 +683,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     /* =============================== Thread for Data Transfer =========================================== */
-    public static class ConnectedThread extends Thread {
+    public class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
-        boolean stopThread;
-        byte[] buffer = new byte[1024];
+
 
 
         public ConnectedThread(BluetoothSocket socket) {
@@ -693,8 +695,7 @@ public class MainActivity extends AppCompatActivity {
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
 
-            // Get the input and output streams, using temp objects because
-            // member streams are final
+            /* Get the in and output streams using temps because member streams are declared as final */
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
@@ -706,25 +707,27 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-       public void run() {
+        public void run(){
             byte[] buffer = new byte[1024];  // buffer store for the stream
-            int bytes = 0; // bytes returned from read()
+
+            int bytes; // bytes returned from read()
+
             // Keep listening to the InputStream until an exception occurs
             while (true) {
+                // Read from the InputStream
                 try {
+                    bytes = mmInStream.read(buffer);
+                    String rpmData = new String(buffer, 0, bytes);
+                    Log.d(TAG, "RPMData: " + rpmData);
 
-                    buffer[bytes] = (byte) mmInStream.read();
-                    String readMessage;
-                    if (buffer[bytes] == '\n'){
-                        readMessage = new String(buffer,0,bytes);
-                        //Log.e("Arduino Message",readMessage);
-                        //handler.obtainMessage(MESSAGE_READ,readMessage).sendToTarget();
-                        bytes = 0;
-                    } else {
-                        bytes++;
-                    }
+                    Intent rpmDataIntent = new Intent("rpmData");
+                    rpmDataIntent.putExtra("theMessage", rpmData);
+                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(rpmDataIntent);
+
+
+
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
                     break;
                 }
             }
@@ -741,60 +744,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        public void beginListenForData()
-        {
-            final Handler handler = new Handler();
-            stopThread = false;
-            buffer = new byte[1024];
-            Thread thread  = new Thread(() -> {
-                while(!Thread.currentThread().isInterrupted() && !stopThread)
-                {
-                    try
-                    {
-                        int byteCount = mmInStream.available();
-                        if(byteCount > 0)
-                        {
-                            byte[] rawBytes = new byte[byteCount];
-                            mmInStream.read(rawBytes);
-                            final String rpmData=new String(rawBytes,"UTF-8");
-                            //final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
-                            handler.post(new Runnable() {
-                                public void run() {
-
-                                    /*Message msg = new Message();
-                                    msg.obj = rpmData;
-                                    msg.what = RPM_READ;
-                                    handler.sendMessage(msg);*/
-
-                                    Log.e("Arduino Message",rpmData);
-                                    handler.obtainMessage(MESSAGE_READ,rpmData).sendToTarget();
 
 
-                                    /* Test to see if values from arduino show in console */
-                                    System.out.println(rpmData);
-                                    //System.out.println("Message title" +rpmData);
-
-                                    //RPMDisplay.setText(string);
-
-
-
-                                }
-                            });
-
-                        }
-                    }
-                    catch (IOException ex)
-                    {
-                        stopThread = true;
-                    }
-                }
-            });
-
-            thread.start();
-        }
-
-
-        
 
         /* Call this from the main activity to shutdown the connection */
         public void cancel() {
@@ -802,6 +753,14 @@ public class MainActivity extends AppCompatActivity {
                 mmSocket.close();
             } catch (IOException e) { }
         }
+    }
+
+    private void connected(BluetoothSocket mmSocket, BluetoothDevice mmDevice) {
+        Log.d(TAG, "connected: Starting.");
+
+        // Start the thread to manage the connection and perform transmissions
+        connectedThread = new ConnectedThread(mmSocket);
+        connectedThread.start();
     }
 
     /* ============================ Terminate Connection at BackPress ====================== */
