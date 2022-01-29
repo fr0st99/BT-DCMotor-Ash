@@ -3,11 +3,14 @@ package com.ashyadav.FYPBT_app;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.AssetFileDescriptor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private float Acceleration;
     private float CurrentAccel;
     private float LastAccel;
+    //final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
 
 
     public static Handler handler;
@@ -56,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
+    private final static int RPM_READ = 3;
 
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -114,11 +120,9 @@ public class MainActivity extends AppCompatActivity {
         buttonRPM4Reverse.setEnabled(false);
 
 
-
-
         // If a bluetooth device has been selected from BTConnectActivity
         deviceID = getIntent().getStringExtra("deviceName");
-        if (deviceID != null){
+        if (deviceID != null) {
             // Get the device address to make BT Connection
             deviceAddress = getIntent().getStringExtra("deviceAddress");
             // Show progress and connection status
@@ -132,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             selected device (see the thread code below)
              */
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-            createConnectThread = new CreateConnectThread(bluetoothAdapter,deviceAddress);
+            createConnectThread = new CreateConnectThread(bluetoothAdapter, deviceAddress);
             createConnectThread.start();
         }
 
@@ -141,19 +145,18 @@ public class MainActivity extends AppCompatActivity {
          */
         handler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void handleMessage(Message msg){
+            public void handleMessage(Message msg) {
 
 
                 /* Sound effects for success and failure of BT connection - royalty free sounds from https://www.soundjay.com */
 
-                final MediaPlayer successMP = MediaPlayer.create(MainActivity.this,R.raw.btsuccess);
-                final MediaPlayer failMP = MediaPlayer.create(MainActivity.this,R.raw.btfail);
+                final MediaPlayer successMP = MediaPlayer.create(MainActivity.this, R.raw.btsuccess);
+                final MediaPlayer failMP = MediaPlayer.create(MainActivity.this, R.raw.btfail);
 
 
-
-                switch (msg.what){
+                switch (msg.what) {
                     case CONNECTING_STATUS:
-                        switch(msg.arg1){
+                        switch (msg.arg1) {
                             case 1:
                                 toolbar.setSubtitle("Connected to " + deviceID);
                                 progressBar.setVisibility(View.GONE);
@@ -198,6 +201,14 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+
+
+
+
+
+
+
+
         // Select Bluetooth Device
         buttonConnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,6 +218,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
         /* Button On for DC Motor */
         buttonOn.setOnClickListener(new View.OnClickListener() {
@@ -229,14 +242,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
             }
         });
+
+
 
 
 
@@ -539,6 +548,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
+
     /* Sensor implementation. Shake to view App author */
     /* Code adapted from my 3rd year project submitted for ED5042 */
 
@@ -596,6 +608,9 @@ public class MainActivity extends AppCompatActivity {
         AboutSensorMngr.unregisterListener(AboutSensorListener);
         super.onPause();
     }
+
+
+
 
     /* Resources used for this section of code: https://examples.javacodegeeks.com/android/android-bluetooth-connection-example/ */
     /* Accessed on 15/11/2021 by Ashutosh Yadav 18249094 */
@@ -656,6 +671,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
 
     /* =============================== Thread for Data Transfer =========================================== */
@@ -735,16 +752,23 @@ public class MainActivity extends AppCompatActivity {
                         {
                             byte[] rawBytes = new byte[byteCount];
                             mmInStream.read(rawBytes);
-                            final String string=new String(rawBytes,"UTF-8");
+                            final String rpmData=new String(rawBytes,"UTF-8");
                             //final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
                             handler.post(new Runnable() {
                                 public void run() {
 
+                                    Message message = new Message();
+                                    message.obj = rpmData;
+                                    message.what = RPM_READ;
+                                    handler.sendMessage(message);
 
-                                    System.out.println(string);
+
+                                    /* Test to see if values from arduino show in console */
+                                    System.out.println(message);
+                                    System.out.println("Message title" +RPM_READ);
 
                                     //RPMDisplay.setText(string);
-                                    //
+
 
 
                                 }
