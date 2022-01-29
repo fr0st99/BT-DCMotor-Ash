@@ -194,11 +194,14 @@ public class MainActivity extends AppCompatActivity {
 
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
-
+                        RPMDisplay.setText(arduinoMsg);
+                        System.out.println("Testing msg" +arduinoMsg);
 
                         break;
                 }
+
             }
+
         };
 
 
@@ -239,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
                 // Send command to Arduino board
                 connectedThread.write(cmdText);
                 connectedThread.beginListenForData();
+                RPMDisplay.setText("Test" +MESSAGE_READ);
 
 
 
@@ -713,8 +717,8 @@ public class MainActivity extends AppCompatActivity {
                     String readMessage;
                     if (buffer[bytes] == '\n'){
                         readMessage = new String(buffer,0,bytes);
-                        Log.e("Arduino Message",readMessage);
-                        handler.obtainMessage(MESSAGE_READ,readMessage).sendToTarget();
+                        //Log.e("Arduino Message",readMessage);
+                        //handler.obtainMessage(MESSAGE_READ,readMessage).sendToTarget();
                         bytes = 0;
                     } else {
                         bytes++;
@@ -757,15 +761,18 @@ public class MainActivity extends AppCompatActivity {
                             handler.post(new Runnable() {
                                 public void run() {
 
-                                    Message message = new Message();
-                                    message.obj = rpmData;
-                                    message.what = RPM_READ;
-                                    handler.sendMessage(message);
+                                    /*Message msg = new Message();
+                                    msg.obj = rpmData;
+                                    msg.what = RPM_READ;
+                                    handler.sendMessage(msg);*/
+
+                                    Log.e("Arduino Message",rpmData);
+                                    handler.obtainMessage(MESSAGE_READ,rpmData).sendToTarget();
 
 
                                     /* Test to see if values from arduino show in console */
-                                    System.out.println(message);
-                                    System.out.println("Message title" +RPM_READ);
+                                    System.out.println(rpmData);
+                                    //System.out.println("Message title" +rpmData);
 
                                     //RPMDisplay.setText(string);
 
