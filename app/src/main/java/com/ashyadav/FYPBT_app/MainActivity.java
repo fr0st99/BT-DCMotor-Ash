@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
     protected void onCreate(Bundle savedInstanceState) {
 
         BroadcastReceiver msgReceiver = new BroadcastReceiver() {
@@ -105,11 +107,10 @@ public class MainActivity extends AppCompatActivity {
         final TextView PWMText = findViewById(R.id.PWMValue);
         final Button aboutButton = findViewById(R.id.aboutButton);
 
+
         SeekBar seekBar = findViewById(R.id.seekBar);
 
         SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
-
-
 
 
         /* Set buttons to not visible so they can't be clicked before BT connection */
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 buttonConnect.setEnabled(true);
                                 buttonOn.setEnabled(true);
-                                buttonOff.setEnabled(true);
+                                buttonOff.setEnabled(false);
                                 successMP.start();
 
                                 /* Seek bar for DC motor control enabler */
@@ -212,6 +213,8 @@ public class MainActivity extends AppCompatActivity {
 
                 seekBar.setEnabled(true);
                 seekBarReverse.setEnabled(true);
+                buttonOn.setEnabled(false);
+                buttonOff.setEnabled(true);
 
 
                 Toast.makeText(getApplicationContext(), "The DC Motor is on and receiving power", Toast.LENGTH_SHORT).show();
@@ -242,6 +245,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "The DC Motor is off", Toast.LENGTH_SHORT).show();
                 RPMDisplay.setText("0");
                 DirectionText.setText("Off");
+                buttonOn.setEnabled(true);
+                buttonOff.setEnabled(false);
 
                 /* Set seekbar status for both forward and reverse to 0 upon turning off */
 
@@ -297,6 +302,8 @@ public class MainActivity extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBar) {
                 // TODO Auto-generated method stub
 
+                seekBarReverse.setProgress(0);
+
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -333,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBarReverse) {
                 // TODO Auto-generated method stub
 
-
+                seekBar.setProgress(0);
 
             }
 
@@ -390,13 +397,28 @@ public class MainActivity extends AppCompatActivity {
 
                 final MediaPlayer beepSound = MediaPlayer.create(MainActivity.this,R.raw.beep);
 
+                SeekBar seekBar = findViewById(R.id.seekBar);
+
+                SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
+
                 final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
                 final TextView DirectionText = (TextView) findViewById(R.id.Dir);
+                final Button buttonOn = findViewById(R.id.buttonOn);
+                final Button buttonOff = findViewById(R.id.buttonOff);
+
+
                 Toast toast = Toast.makeText(getApplicationContext(), "Fall Detected! DC Motor turned off", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 RPMDisplay.setText("0");
                 DirectionText.setText("Off");
+                seekBar.setEnabled(false);
+                seekBarReverse.setEnabled(false);
+                seekBar.setProgress(0);
+                seekBarReverse.setProgress(0);
+                buttonOn.setEnabled(true);
+                buttonOff.setEnabled(false);
+
 
                 // Send command to Arduino board
 
