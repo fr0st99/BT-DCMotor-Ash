@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+
 
     defaultConfig {
         applicationId "com.FYP.FYPBT_app"
@@ -36,6 +36,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.github.Pygmalion69:Gauge:1.5.2'
 
     // Material design components
     implementation 'com.google.android.material:material:1.1.0'

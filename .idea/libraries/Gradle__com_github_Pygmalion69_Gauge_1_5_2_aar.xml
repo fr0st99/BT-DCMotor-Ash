@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.Pygmalion69:Gauge:1.5.2@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/25342bf65e9c863e5ab34e480d43f08a/transformed/jetified-Gauge-1.5.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/25342bf65e9c863e5ab34e480d43f08a/transformed/jetified-Gauge-1.5.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/25342bf65e9c863e5ab34e480d43f08a/transformed/jetified-Gauge-1.5.2/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.Pygmalion69/Gauge/1.5.2/406bdcb345a14103996b52e702f37226f6cbb16/Gauge-1.5.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

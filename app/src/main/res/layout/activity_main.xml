@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:gauge="http://schemas.android.com/apk/res-auto"
     android:id="@+id/constrainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -90,177 +91,12 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
 
-    <TextView
-        android:id="@+id/RPMValueText1"
-        android:layout_width="170dp"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:text="10,000 RPM"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/buttonRPM1Forward"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.127"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonRPM2Reverse"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="210dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="644dp"
-        android:text="Reverse"
-        android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.902"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonRPM1Reverse"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="210dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="644dp"
-        android:text="Reverse"
-        android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/RPMValueText3"
-        android:layout_width="170dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="4dp"
-        android:gravity="center"
-        android:text="2,500 RPM"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/buttonRPM3Forward"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.127"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/RPMValueText2"
-        android:layout_width="170dp"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:text="5,000 RPM"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/buttonRPM2Forward"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.869"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonRPM3Reverse"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="210dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="852dp"
-        android:text="Reverse"
-        android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonRPM2Forward"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="210dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="588dp"
-        android:text="Forward"
-        android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.902"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/RPMValueText4"
-        android:layout_width="170dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="4dp"
-        android:gravity="center"
-        android:text="1,250 RPM"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/buttonRPM4Forward"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.869"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonRPM4Forward"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="210dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="792dp"
-        android:text="Forward"
-        android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.902"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonRPM3Forward"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="210dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="796dp"
-        android:text="Forward"
-        android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonRPM4Reverse"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="210dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="852dp"
-        android:text="Reverse"
-        android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.902"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-
-    <Button
-        android:id="@+id/buttonRPM1Forward"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="210dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="588dp"
-        android:text="Forward"
-        android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
     <Button
         android:id="@+id/aboutButton"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="210dp"
         android:layout_height="56dp"
-        android:layout_marginTop="484dp"
+        android:layout_marginTop="1096dp"
         android:text="About"
         android:textSize="24sp"
         app:backgroundTint="#1AB4CF"
@@ -273,28 +109,25 @@
         android:id="@+id/RPMDisplayMain"
         android:layout_width="214dp"
         android:layout_height="72dp"
-        android:layout_marginTop="132dp"
+        android:layout_marginTop="276dp"
         android:gravity="center"
         android:text="Off"
         android:textSize="20pt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.803"
+        app:layout_constraintHorizontal_bias="0.959"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
-
-
-
     <TextView
-        android:id="@+id/Dir"
+        android:id="@+id/PWMValue"
         android:layout_width="214dp"
         android:layout_height="72dp"
-        android:layout_marginTop="204dp"
+        android:layout_marginTop="420dp"
         android:gravity="center"
-        android:text="Off"
+        android:text="0"
         android:textSize="20pt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.803"
+        app:layout_constraintHorizontal_bias="0.959"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
@@ -302,12 +135,12 @@
         android:id="@+id/RPMDisplayCounter"
         android:layout_width="214dp"
         android:layout_height="72dp"
-        android:layout_marginTop="132dp"
+        android:layout_marginTop="276dp"
         android:gravity="center"
         android:text="@string/RPMDisplay"
         android:textSize="13pt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.248"
+        app:layout_constraintHorizontal_bias="0.593"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
@@ -315,12 +148,38 @@
         android:id="@+id/DirDisplay"
         android:layout_width="214dp"
         android:layout_height="72dp"
-        android:layout_marginTop="204dp"
+        android:layout_marginTop="348dp"
         android:gravity="center"
         android:text="@string/DirDisplay"
         android:textSize="13pt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.248"
+        app:layout_constraintHorizontal_bias="0.593"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
+        android:id="@+id/pwmDisplay"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="420dp"
+        android:gravity="center"
+        android:text="@string/PWMDisplay"
+        android:textSize="13pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.593"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
+        android:id="@+id/Dir"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="348dp"
+        android:gravity="center"
+        android:text="Off"
+        android:textSize="20pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.959"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
@@ -328,21 +187,20 @@
         android:id="@+id/seekBar"
         android:layout_width="682dp"
         android:layout_height="27dp"
-        android:layout_marginTop="116dp"
-        android:max="255"
+        android:layout_marginTop="652dp"
+        android:max="130"
         android:min="0"
         android:progress="0"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonRPM4Reverse" />
+        app:layout_constraintTop_toBottomOf="@id/buttonOff" />
 
     <SeekBar
         android:id="@+id/seekBarReverse"
         android:layout_width="682dp"
         android:layout_height="27dp"
         android:layout_marginTop="100dp"
-        android:max="255"
+        android:max="130"
         android:min="0"
         android:progress="0"
         app:layout_constraintEnd_toEndOf="parent"
@@ -394,6 +252,23 @@
         app:layout_constraintBottom_toTopOf="@id/seekBarReverse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <de.nitri.gauge.Gauge
+        android:id="@+id/gauge"
+        android:layout_width="218dp"
+        android:layout_height="220dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="212dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonOff"
+
+        gauge:initialValue="22"
+        gauge:maxValue="6500"
+        gauge:minValue="0"
+        gauge:totalNicks="120"
+        gauge:valuePerNick="60" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

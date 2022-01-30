@@ -37,6 +37,8 @@ import java.io.OutputStream;
 import java.util.Objects;
 import java.util.UUID;
 
+import de.nitri.gauge.Gauge;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
 
+    Gauge rpmGauge;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("receiver", "Received data  " + rpmValue);
                 TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
                 RPMDisplay.setText(rpmValue);
+
+                rpmGauge = (Gauge) findViewById(R.id.gauge);
+
+                float gaugeVal=Float.parseFloat(rpmValue);
+                rpmGauge.moveToValue(gaugeVal);
             }
         };
 
@@ -93,19 +102,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView textViewInfo = findViewById(R.id.textViewInfo);
         final Button buttonOn = findViewById(R.id.buttonOn);
         final Button buttonOff = findViewById(R.id.buttonOff);
-
-        final Button buttonRPM1Forward = findViewById(R.id.buttonRPM1Forward);
-        final Button buttonRPM1Reverse = findViewById(R.id.buttonRPM1Reverse);
-
-        final Button buttonRPM2Forward = findViewById(R.id.buttonRPM2Forward);
-        final Button buttonRPM2Reverse = findViewById(R.id.buttonRPM2Reverse);
-
-        final Button buttonRPM3Forward = findViewById(R.id.buttonRPM3Forward);
-        final Button buttonRPM3Reverse = findViewById(R.id.buttonRPM3Reverse);
-
-        final Button buttonRPM4Forward = findViewById(R.id.buttonRPM4Forward);
-        final Button buttonRPM4Reverse = findViewById(R.id.buttonRPM4Reverse);
-
+        final TextView PWMText = findViewById(R.id.PWMValue);
         final Button aboutButton = findViewById(R.id.aboutButton);
 
         SeekBar seekBar = findViewById(R.id.seekBar);
@@ -113,24 +110,19 @@ public class MainActivity extends AppCompatActivity {
         SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
 
 
+
+
         /* Set buttons to not visible so they can't be clicked before BT connection */
 
         buttonOn.setEnabled(false);
         buttonOff.setEnabled(false);
-        buttonRPM1Forward.setEnabled(false);
-        buttonRPM2Forward.setEnabled(false);
-        buttonRPM3Forward.setEnabled(false);
-        buttonRPM4Forward.setEnabled(false);
+
         seekBar.setEnabled(false);
         seekBarReverse.setEnabled(false);
 
         /* Reverse buttons */
 
-        buttonRPM1Reverse.setEnabled(false);
-        buttonRPM2Reverse.setEnabled(false);
-        buttonRPM3Reverse.setEnabled(false);
-        buttonRPM4Forward.setEnabled(false);
-        buttonRPM4Reverse.setEnabled(false);
+
 
 
         // If a bluetooth device has been selected from BTConnectActivity
@@ -143,11 +135,7 @@ public class MainActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             buttonConnect.setEnabled(false);
 
-            /*
-            This is the most important piece of code. When "deviceName" is found
-            the code will call a new thread to create a bluetooth connection to the
-            selected device (see the thread code below)
-             */
+
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             createConnectThread = new CreateConnectThread(bluetoothAdapter, deviceAddress);
             createConnectThread.start();
@@ -176,18 +164,6 @@ public class MainActivity extends AppCompatActivity {
                                 buttonOff.setEnabled(true);
                                 successMP.start();
 
-                                /* Forward button enablers */
-                                buttonRPM1Forward.setEnabled(true);
-                                buttonRPM2Forward.setEnabled(true);
-                                buttonRPM3Forward.setEnabled(true);
-                                buttonRPM4Forward.setEnabled(true);
-
-                                /* Reverse button enablers */
-                                buttonRPM1Reverse.setEnabled(true);
-                                buttonRPM2Reverse.setEnabled(true);
-                                buttonRPM3Reverse.setEnabled(true);
-                                buttonRPM4Reverse.setEnabled(true);
-
                                 /* Seek bar for DC motor control enabler */
 
                                 seekBar.setEnabled(true);
@@ -213,11 +189,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
         // Select Bluetooth Device
         buttonConnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,6 +209,11 @@ public class MainActivity extends AppCompatActivity {
                 String cmdText = null;
                 final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
                 String buttonStatus = buttonOn.getText().toString().toLowerCase();
+
+                seekBar.setEnabled(true);
+                seekBarReverse.setEnabled(true);
+
+
                 Toast.makeText(getApplicationContext(), "The DC Motor is on and receiving power", Toast.LENGTH_SHORT).show();
                 switch (buttonStatus){
                     case "turn on":
@@ -266,6 +242,15 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "The DC Motor is off", Toast.LENGTH_SHORT).show();
                 RPMDisplay.setText("0");
                 DirectionText.setText("Off");
+
+                /* Set seekbar status for both forward and reverse to 0 upon turning off */
+
+                seekBar.setProgress(0);
+                seekBar.setEnabled(false);
+                seekBarReverse.setProgress(0);
+                seekBarReverse.setEnabled(false);
+
+
                 switch (buttonStatus){
                     
                     case "turn off":
@@ -280,187 +265,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        /* Button for RPM1 10,000RPM Clockwise  */
-        buttonRPM1Forward.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
-            final TextView DirectionText = (TextView) findViewById(R.id.Dir);
-            @Override
-            public void onClick(View view) {
-                String cmdText = null;
-                String buttonStatus = buttonRPM1Forward.getText().toString().toLowerCase();
-                Toast.makeText(getApplicationContext(), "The DC Motor speed set to 10,000RPM in the clockwise direction", Toast.LENGTH_SHORT).show();
-                RPMDisplay.setText("10000");
-                DirectionText.setText("Forward");
-                switch (buttonStatus){
-                    case "forward":
 
-                        cmdText = "<speed one forward>";
-                        break;
-                }
-                // Send command to Arduino board
-                connectedThread.write(cmdText);
-            }
-        });
-
-        /* Button for RPM1 10,000RPM Anti-Clockwise  */
-        buttonRPM1Reverse.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
-            final TextView DirectionText = (TextView) findViewById(R.id.Dir);
-            @Override
-            public void onClick(View view) {
-                String cmdText = null;
-                String buttonStatus = buttonRPM1Reverse.getText().toString().toLowerCase();
-                Toast.makeText(getApplicationContext(), "The DC Motor speed set to 10,000RPM in the Anti-Clockwise direction", Toast.LENGTH_SHORT).show();
-                RPMDisplay.setText("10000");
-                DirectionText.setText("Reverse");
-                switch (buttonStatus){
-                    case "reverse":
-
-                        cmdText = "<speed one reverse>";
-                        break;
-                }
-                // Send command to Arduino board
-                connectedThread.write(cmdText);
-            }
-        });
-
-
-        /* Button for RPM2 5,000RPM Clockwise */
-        buttonRPM2Forward.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
-            final TextView DirectionText = (TextView) findViewById(R.id.Dir);
-            @Override
-            public void onClick(View view) {
-                String cmdText = null;
-                String buttonStatus = buttonRPM2Forward.getText().toString().toLowerCase();
-                Toast.makeText(getApplicationContext(), "The DC Motor speed set to 5,000RPM in the clockwise direction", Toast.LENGTH_SHORT).show();
-                RPMDisplay.setText("5000");
-                DirectionText.setText("Forward");
-                switch (buttonStatus){
-                    case "forward":
-
-                        cmdText = "<speed two forward>";
-                        break;
-                }
-                // Send command to Arduino board
-                connectedThread.write(cmdText);
-            }
-        });
-
-        /* Button for RPM2 5,000RPM Anti-Clockwise */
-        buttonRPM2Reverse.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
-            final TextView DirectionText = (TextView) findViewById(R.id.Dir);
-            @Override
-            public void onClick(View view) {
-                String cmdText = null;
-                String buttonStatus = buttonRPM2Reverse.getText().toString().toLowerCase();
-                Toast.makeText(getApplicationContext(), "The DC Motor speed set to 5,000RPM in the anti-clockwise direction", Toast.LENGTH_SHORT).show();
-                RPMDisplay.setText("5000");
-                DirectionText.setText("Reverse");
-                switch (buttonStatus){
-                    case "reverse":
-
-                        cmdText = "<speed two reverse>";
-                        break;
-                }
-                // Send command to Arduino board
-                connectedThread.write(cmdText);
-            }
-        });
-
-        /* Button for RPM3 2,500RPM Clockwise */
-        buttonRPM3Forward.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
-            final TextView DirectionText = (TextView) findViewById(R.id.Dir);
-
-            @Override
-            public void onClick(View view) {
-                String cmdText = null;
-                String buttonStatus = buttonRPM3Forward.getText().toString().toLowerCase();
-                Toast.makeText(getApplicationContext(), "The DC Motor speed set to 2,500RPM in the clockwise direction", Toast.LENGTH_SHORT).show();
-                RPMDisplay.setText("2500");
-                DirectionText.setText("Forward");
-                switch (buttonStatus){
-                    case "forward":
-
-                        cmdText = "<speed three forward>";
-                        break;
-                }
-                // Send command to Arduino board
-                connectedThread.write(cmdText);
-            }
-        });
-
-        /* Button for RPM3 2,500RPM Anti-Clockwise */
-        buttonRPM3Reverse.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
-            final TextView DirectionText = findViewById(R.id.Dir);
-
-            @Override
-            public void onClick(View view) {
-                String cmdText = null;
-                String buttonStatus = buttonRPM3Reverse.getText().toString().toLowerCase();
-                Toast.makeText(getApplicationContext(), "The DC Motor speed set to 2,500RPM in the anti-clockwise direction", Toast.LENGTH_SHORT).show();
-                RPMDisplay.setText("2500");
-                DirectionText.setText("Reverse");
-                switch (buttonStatus){
-                    case "reverse":
-
-                        cmdText = "<speed three reverse>";
-                        break;
-                }
-                // Send command to Arduino board
-                connectedThread.write(cmdText);
-            }
-        });
-
-
-        /* Button for RPM4 1,250RPM Clockwise */
-        buttonRPM4Forward.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
-            final TextView DirectionText = findViewById(R.id.Dir);
-
-            @Override
-            public void onClick(View view) {
-                String cmdText = null;
-                String buttonStatus = buttonRPM4Forward.getText().toString().toLowerCase();
-                Toast.makeText(getApplicationContext(), "The DC Motor speed set to 1,250RPM in the clockwise direction", Toast.LENGTH_SHORT).show();
-                RPMDisplay.setText("1250");
-                DirectionText.setText("Forward");
-                switch (buttonStatus){
-                    case "forward":
-
-                        cmdText = "<speed four forward>";
-                        break;
-                }
-                // Send command to Arduino board
-                connectedThread.write(cmdText);
-            }
-        });
-
-        /* Button for RPM4 1,250RPM Anti-Clockwise */
-        buttonRPM4Reverse.setOnClickListener(new View.OnClickListener() {
-            final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
-            final TextView DirectionText = (TextView) findViewById(R.id.Dir);
-
-            @Override
-            public void onClick(View view) {
-                String cmdText = null;
-                String buttonStatus = buttonRPM4Reverse.getText().toString().toLowerCase();
-                Toast.makeText(getApplicationContext(), "The DC Motor speed set to 1,250RPM in the anti-clockwise direction", Toast.LENGTH_SHORT).show();
-                RPMDisplay.setText("1250");
-                DirectionText.setText("Reverse");
-                switch (buttonStatus){
-                    case "reverse":
-
-                        cmdText = "<speed four reverse>";
-                        break;
-                }
-                // Send command to Arduino board
-                connectedThread.write(cmdText);
-            }
-        });
 
         /* About app button */
         aboutButton.setOnClickListener(new View.OnClickListener() {
@@ -484,6 +289,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Integer temp = progress;
                 progressValue = temp.toString();
+                PWMText.setText(progressValue);
 
 
             }
@@ -505,6 +311,7 @@ public class MainActivity extends AppCompatActivity {
                 /* Set speed and direction values into the display */
 
                 DirectionText.setText("Forward");
+                PWMText.setText(progressValue);
 
             }
         });
@@ -518,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBarReverse, int progress, boolean fromUser) {
                 Integer temp = progress;
                 progressValue = temp.toString();
+                PWMText.setText(progressValue);
 
 
             }
@@ -525,19 +333,25 @@ public class MainActivity extends AppCompatActivity {
             public void onStartTrackingTouch(SeekBar seekBarReverse) {
                 // TODO Auto-generated method stub
 
+
+
             }
 
             public void onStopTrackingTouch(SeekBar seekBarReverse) {
                 final TextView DirectionText = (TextView) findViewById(R.id.Dir);
 
+
                 /* Display motor speed value as a popup (mostly for testing purposes) */
 
                 Toast.makeText(MainActivity.this, "DC Motor Speed Value :" + progressValue, Toast.LENGTH_SHORT).show();
+
                 cmdText = "<speed reverse>" + progressValue + "\n";
                 connectedThread.write(cmdText);
 
                 /* Set speed and direction values into the display */
                 DirectionText.setText("Reverse");
+                PWMText.setText(progressValue);
+
 
             }
         });
