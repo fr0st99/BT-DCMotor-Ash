@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         seekBar.setEnabled(false);
         seekBarReverse.setEnabled(false);
 
-        /* Reverse buttons */
+
 
 
 
