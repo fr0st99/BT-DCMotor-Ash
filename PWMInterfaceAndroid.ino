@@ -15,17 +15,16 @@ int prev = 0;
 int time;
 
 
-#define pwm1     9   //input 2
-#define pwm2    10   //input 1
+#define pwm1     10   //input 2
+#define pwm2    11   //input 1
 
 
 
 void INTERRUPT()
 {
   rev++;
+  
 }
-
-
 
 
 void setup() {
@@ -43,13 +42,14 @@ void loop() {
 // RPM value calculation from IR proximity sensor data 
   delay(1000);
   detachInterrupt(0);                   
-  time = millis() - prev;          
+  time = millis() - prev;  
+  Serial.println("Rev counter");  
+  Serial.println(rev);        
   rpm_val = (rev/time) * 60000;       
   prev = millis();                  
   rev = 0;
   Serial.println(rpm_val);
   attachInterrupt(1, INTERRUPT, RISING);
-  Serial.println("sending data by BT to app");
   bluetoothSerial.print(rpm_val);
   delay(20);
   
@@ -84,20 +84,6 @@ void loop() {
 
 
 
-
-// Change motor direction
-//  if (msg == "<reverse>"){
-//    motor_dir = !motor_dir;
-//    analogWrite(pwm2, speed);
-//    Serial.println("DC motor is in reverse\n");
-//    msg = ""; // reset command
-//  } else {
-//if (msg == "<forward>"){
-//      analogWrite(pwm1, speed);
-//      Serial.println("DC motor is in forward\n"); 
-//      msg = ""; 
-//    }
-//  }
 
   // Turn on DC motor in Arduino board
   if (msg == "<turn on>"){
@@ -136,63 +122,5 @@ void loop() {
     }
 
 
-  // Speed 1 Controls 
-  if (msg == "<speed one forward>"){
-      analogWrite(pwm1, 200);
-      analogWrite(pwm2, 0);
-      Serial.println("DC motor is set to speed 1\n"); 
-      msg = ""; 
-  } else {
-    if (msg == "<speed one reverse>"){
-      analogWrite(pwm1,0);
-      analogWrite(pwm2, 200);
-      Serial.println("DC motor is set to speed 1 reverse\n"); 
-      msg = ""; 
-    }
-  }
 
- // Speed 2 Controls 
- if (msg == "<speed two forward>"){
-      analogWrite(pwm1, 150);
-      analogWrite(pwm2, 0);
-      Serial.println("DC motor is set to speed 2 forward\n"); 
-      msg = ""; 
- } else {
-    if (msg == "<speed two reverse>"){
-      analogWrite(pwm1, 0);
-      analogWrite(pwm2, 150);
-      Serial.println("DC motor is set to speed 2 reverse\n"); 
-      msg = ""; 
-    }
-  }
-
- // Speed 3 Controls 
- if (msg == "<speed three forward>"){
-      analogWrite(pwm1, 100);
-      analogWrite(pwm2, 0);
-      Serial.println("DC motor is set to speed 3 forward\n"); 
-      msg = ""; 
- } else {
-    if (msg == "<speed three reverse>"){
-      analogWrite(pwm1, 0);
-      analogWrite(pwm2, 100);
-      Serial.println("DC motor is set to speed 3 reverse\n"); 
-      msg = ""; 
-    }
-  }
-
- // Speed 4 Controls 
- if (msg == "<speed four forward>"){
-      analogWrite(pwm1, 69);
-      analogWrite(pwm2, 0);
-      Serial.println("DC motor is set to speed 4 forward\n"); 
-      msg = ""; 
- } else {
-    if (msg == "<speed four reverse>"){
-      analogWrite(pwm1, 0);
-      analogWrite(pwm2, 69);
-      Serial.println("DC motor is set to speed 4 reverse\n"); 
-      msg = ""; 
-    }
-  }
 }
