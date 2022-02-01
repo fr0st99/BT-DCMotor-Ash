@@ -2,6 +2,7 @@ package com.ashyadav.FYPBT_app;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -27,6 +28,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -101,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
-        final TextView textViewInfo = findViewById(R.id.textViewInfo);
         final Button buttonOn = findViewById(R.id.buttonOn);
         final Button buttonOff = findViewById(R.id.buttonOff);
         final TextView PWMText = findViewById(R.id.PWMValue);
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
         handler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void handleMessage(Message msg) {
+            public void handleMessage(@NonNull Message msg) {
 
 
                 /* Sound effects for success and failure of BT connection - royalty free sounds from https://www.soundjay.com */
@@ -154,33 +155,29 @@ public class MainActivity extends AppCompatActivity {
                 final MediaPlayer failMP = MediaPlayer.create(MainActivity.this, R.raw.btfail);
 
 
-                switch (msg.what) {
-                    case CONNECTING_STATUS:
-                        switch (msg.arg1) {
-                            case 1:
-                                toolbar.setSubtitle("Connected to " + deviceID);
-                                progressBar.setVisibility(View.GONE);
-                                buttonConnect.setEnabled(true);
-                                buttonOn.setEnabled(true);
-                                buttonOff.setEnabled(false);
-                                successMP.start();
+                if (msg.what == CONNECTING_STATUS) {
+                    switch (msg.arg1) {
+                        case 1:
+                            toolbar.setSubtitle("Connected to " + deviceID);
+                            progressBar.setVisibility(View.GONE);
+                            buttonConnect.setEnabled(true);
+                            buttonOn.setEnabled(true);
+                            buttonOff.setEnabled(false);
+                            successMP.start();
 
-                                /* Seek bar for DC motor control enabler */
+                            /* Seek bar for DC motor control enabler */
 
-                                seekBar.setEnabled(true);
-                                seekBarReverse.setEnabled(true);
+                            seekBar.setEnabled(true);
+                            seekBarReverse.setEnabled(true);
 
-                                break;
-                            case -1:
-                                toolbar.setSubtitle("Error: Unable to connect");
-                                progressBar.setVisibility(View.GONE);
-                                buttonConnect.setEnabled(true);
-                                failMP.start();
-                                break;
-                        }
-                        break;
-
-
+                            break;
+                        case -1:
+                            toolbar.setSubtitle("Error: Unable to connect");
+                            progressBar.setVisibility(View.GONE);
+                            buttonConnect.setEnabled(true);
+                            failMP.start();
+                            break;
+                    }
                 }
 
             }
@@ -191,43 +188,34 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Select Bluetooth Device
-        buttonConnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Move to adapter list
-                Intent intent = new Intent(MainActivity.this, BTConnectActivity.class);
-                startActivity(intent);
-            }
+        buttonConnect.setOnClickListener(view -> {
+            // Move to adapter list
+            Intent intent = new Intent(MainActivity.this, BTConnectActivity.class);
+            startActivity(intent);
         });
 
 
 
         /* Button On for DC Motor */
-        buttonOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        buttonOn.setOnClickListener(view -> {
 
-                String cmdText = null;
-                final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
-                String buttonStatus = buttonOn.getText().toString().toLowerCase();
+            String cmdText = null;
+            String buttonStatus = buttonOn.getText().toString().toLowerCase();
 
-                seekBar.setEnabled(true);
-                seekBarReverse.setEnabled(true);
-                buttonOn.setEnabled(false);
-                buttonOff.setEnabled(true);
+            seekBar.setEnabled(true);
+            seekBarReverse.setEnabled(true);
+            buttonOn.setEnabled(false);
+            buttonOff.setEnabled(true);
 
 
-                Toast.makeText(getApplicationContext(), "The DC Motor is on and receiving power", Toast.LENGTH_SHORT).show();
-                switch (buttonStatus){
-                    case "turn on":
-
-                        cmdText = "<turn on>";
-                        break;
-                }
-                // Send command to Arduino board
-                connectedThread.write(cmdText);
-
+            Toast.makeText(getApplicationContext(), "The DC Motor is on and receiving power", Toast.LENGTH_SHORT).show();
+            if ("turn on".equals(buttonStatus)) {
+                cmdText = "<turn on>";
             }
+            // Send command to Arduino board
+            assert cmdText != null;
+            connectedThread.write(cmdText);
+
         });
 
 
@@ -238,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
         buttonOff.setOnClickListener(new View.OnClickListener() {
             final TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
             final TextView DirectionText = findViewById(R.id.Dir);
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
                 String cmdText = null;
@@ -256,15 +245,11 @@ public class MainActivity extends AppCompatActivity {
                 seekBarReverse.setEnabled(false);
 
 
-                switch (buttonStatus){
-                    
-                    case "turn off":
-
-                        cmdText = "<turn off>";
-                        break;
-
+                if ("turn off".equals(buttonStatus)) {
+                    cmdText = "<turn off>";
                 }
                 // Send command to Arduino board
+                assert cmdText != null;
                 connectedThread.write(cmdText);
             }
         });
@@ -273,17 +258,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         /* About app button */
-        aboutButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                startActivity(new Intent(MainActivity.this, AboutApp.class));
-
-            }
-
-
-        });
+        aboutButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, AboutApp.class)));
 
         /* Change Value of DC motor speed by slider from 0-255 FORWARD POSITION */
 
@@ -306,9 +281,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            @SuppressLint("SetTextI18n")
             public void onStopTrackingTouch(SeekBar seekBar) {
                 final TextView DirectionText = (TextView) findViewById(R.id.Dir);
-                final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
                 /* Display motor speed value as a popup (mostly for testing purposes) */
 
                 Toast.makeText(MainActivity.this, "DC Motor Speed Value :" + progressValue, Toast.LENGTH_SHORT).show();
@@ -344,6 +319,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            @SuppressLint("SetTextI18n")
             public void onStopTrackingTouch(SeekBar seekBarReverse) {
                 final TextView DirectionText = (TextView) findViewById(R.id.Dir);
 
@@ -380,6 +356,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final SensorEventListener AboutSensorListener = new SensorEventListener() {
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onSensorChanged(SensorEvent event) {
             float x = event.values[0];
@@ -535,7 +512,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
-            } catch (IOException e) { }
+            } catch (IOException ignored) { }
 
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
@@ -587,7 +564,7 @@ public class MainActivity extends AppCompatActivity {
         public void cancel() {
             try {
                 mmSocket.close();
-            } catch (IOException e) { }
+            } catch (IOException ignored) { }
         }
     }
 
