@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 // Get extra data included in the Intent
-                String rpmValue = intent.getStringExtra("theMessage");
+                String rpmValue = intent.getStringExtra("RPM Data");
                 Log.d("receiver", "Received data  " + rpmValue);
                 TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
                 RPMDisplay.setText(rpmValue);
@@ -534,7 +534,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "RPMData: " + rpmData);
 
                     Intent rpmDataIntent = new Intent("rpmData");
-                    rpmDataIntent.putExtra("theMessage", rpmData);
+                    rpmDataIntent.putExtra("RPM Data", rpmData);
                     LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(rpmDataIntent);
 
 
