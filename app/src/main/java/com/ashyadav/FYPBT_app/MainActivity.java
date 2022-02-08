@@ -10,19 +10,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -36,6 +41,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -44,6 +50,23 @@ import de.nitri.gauge.Gauge;
 public class MainActivity extends AppCompatActivity {
 
 
+    /* For Timer */
+
+    private EditText mEditTextInput;
+    private TextView mTextViewCountDown;
+    private Button mButtonSet;
+    private Button mButtonStartPause;
+    private Button mButtonReset;
+
+    private CountDownTimer mCountDownTimer;
+
+    private boolean mTimerRunning;
+
+    private long mStartTimeInMillis;
+    private long mTimeLeftInMillis;
+    private long mEndTime;
+
+    /* For Device Address */
 
 
     private String deviceID = null;
@@ -55,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
     private float Acceleration;
     private float CurrentAccel;
     private float LastAccel;
+    Gauge rpmGauge;
+
+    /* Handler */
 
 
     public static Handler handler;
@@ -64,13 +90,13 @@ public class MainActivity extends AppCompatActivity {
 
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
 
-    Gauge rpmGauge;
-
-
 
 
 
     protected void onCreate(Bundle savedInstanceState) {
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
 
         BroadcastReceiver msgReceiver = new BroadcastReceiver() {
             @Override
@@ -83,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
                 rpmGauge = (Gauge) findViewById(R.id.gauge);
 
-                float gaugeVal=Float.parseFloat(rpmValue);
+                float gaugeVal = Float.parseFloat(rpmValue);
                 rpmGauge.moveToValue(gaugeVal);
             }
         };
@@ -91,7 +117,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver,new IntentFilter("rpmData"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver, new IntentFilter("rpmData"));
+
+        mEditTextInput = findViewById(R.id.edit_text_input);
+        mTextViewCountDown = findViewById(R.id.text_view_countdown);
+
+        mButtonSet = findViewById(R.id.button_set);
+        mButtonStartPause = findViewById(R.id.button_start_pause);
+        mButtonReset = findViewById(R.id.button_reset);
 
 
 
@@ -118,13 +151,15 @@ public class MainActivity extends AppCompatActivity {
 
         buttonOn.setEnabled(false);
         buttonOff.setEnabled(false);
+        mEditTextInput.setEnabled(false);
+        mButtonReset.setEnabled(false);
+        mButtonSet.setEnabled(false);
+        mButtonStartPause.setEnabled(false);
+
+
 
         seekBar.setEnabled(false);
         seekBarReverse.setEnabled(false);
-
-
-
-
 
 
         // If a bluetooth device has been selected from BTConnectActivity
@@ -170,6 +205,13 @@ public class MainActivity extends AppCompatActivity {
                             seekBar.setEnabled(true);
                             seekBarReverse.setEnabled(true);
 
+                            /* Enable textfield for timer */
+
+                            mEditTextInput.setEnabled(true);
+                            mButtonSet.setEnabled(true);
+                            mButtonStartPause.setEnabled(true);
+                            mButtonReset.setEnabled(true);
+
                             break;
                         case -1:
                             toolbar.setSubtitle("Error: Unable to connect");
@@ -183,8 +225,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         };
-
-
 
 
         // Select Bluetooth Device
@@ -207,6 +247,15 @@ public class MainActivity extends AppCompatActivity {
             buttonOn.setEnabled(false);
             buttonOff.setEnabled(true);
 
+            /* Turn on timer controls */
+
+            mEditTextInput.setEnabled(true);
+            mButtonReset.setEnabled(true);
+            mButtonSet.setEnabled(true);
+            mButtonStartPause.setEnabled(true);
+
+
+
 
             Toast.makeText(getApplicationContext(), "The DC Motor is on and receiving power", Toast.LENGTH_SHORT).show();
             if ("turn on".equals(buttonStatus)) {
@@ -226,6 +275,7 @@ public class MainActivity extends AppCompatActivity {
         buttonOff.setOnClickListener(new View.OnClickListener() {
             final TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
             final TextView DirectionText = findViewById(R.id.Dir);
+
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
@@ -243,6 +293,13 @@ public class MainActivity extends AppCompatActivity {
                 seekBar.setEnabled(false);
                 seekBarReverse.setProgress(0);
                 seekBarReverse.setEnabled(false);
+
+                /* Turn off timer controls */
+
+                mEditTextInput.setEnabled(false);
+                mButtonReset.setEnabled(false);
+                mButtonSet.setEnabled(false);
+                mButtonStartPause.setEnabled(false);
 
 
                 if ("turn off".equals(buttonStatus)) {
@@ -346,7 +403,213 @@ public class MainActivity extends AppCompatActivity {
         CurrentAccel = SensorManager.GRAVITY_EARTH;
         LastAccel = SensorManager.GRAVITY_EARTH;
 
+
+
+        /* Time test case */
+
+
+        mButtonSet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String input = mEditTextInput.getText().toString();
+                if (input.length() == 0) {
+                    Toast.makeText(MainActivity.this, "Field can't be empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                long millisInput = Long.parseLong(input) * 60000;
+                if (millisInput == 0) {
+                    Toast.makeText(MainActivity.this, "Please enter a positive number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                setTime(millisInput);
+                mEditTextInput.setText("");
+            }
+        });
+
+
+        mButtonStartPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mTimerRunning) {
+                    pauseTimer();
+                } else {
+                    startTimer();
+                }
+            }
+        });
+
+        mButtonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetTimer();
+            }
+        });
+
+
     }
+
+
+    /* Timer Methods */
+
+
+    private void setTime(long milliseconds) {
+        mStartTimeInMillis = milliseconds;
+        resetTimer();
+
+    }
+
+    private void startTimer() {
+
+        /* Declarations */
+
+        final TextView DirectionText = (TextView) findViewById(R.id.Dir);
+        final MediaPlayer beepSound = MediaPlayer.create(MainActivity.this,R.raw.beep);
+        SeekBar seekBar = findViewById(R.id.seekBar);
+        SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
+
+
+        mEndTime = System.currentTimeMillis() + mTimeLeftInMillis;
+
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+
+
+                /* Direction Text and controls */
+
+                DirectionText.setText("Off");
+                seekBar.setProgress(0);
+                seekBarReverse.setProgress(0);
+
+                /* Check timer and send off command to Arduino */
+
+                mTimerRunning = false;
+                updateWatchInterface();
+
+                Toast.makeText(getApplicationContext(), "DC Motor Off, Job completed.", Toast.LENGTH_LONG).show();
+                String cmdText = "<turn off>";
+                assert cmdText != null;
+                connectedThread.write(cmdText);
+                beepSound.start();
+
+            }
+        }.start();
+
+        mTimerRunning = true;
+        updateWatchInterface();
+    }
+
+    private void pauseTimer() {
+        mCountDownTimer.cancel();
+        mTimerRunning = false;
+        updateWatchInterface();
+    }
+
+    private void resetTimer() {
+        mTimeLeftInMillis = mStartTimeInMillis;
+        updateCountDownText();
+        updateWatchInterface();
+
+    }
+
+    private void updateCountDownText() {
+        int hours = (int) (mTimeLeftInMillis / 1000) / 3600;
+        int minutes = (int) ((mTimeLeftInMillis / 1000) % 3600) / 60;
+        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+
+        String timeLeftFormatted;
+        if (hours > 0) {
+            timeLeftFormatted = String.format(Locale.getDefault(),
+                    "%d:%02d:%02d", hours, minutes, seconds);
+        } else {
+            timeLeftFormatted = String.format(Locale.getDefault(),
+                    "%02d:%02d", minutes, seconds);
+        }
+
+        mTextViewCountDown.setText(timeLeftFormatted);
+    }
+
+    private void updateWatchInterface() {
+        if (mTimerRunning) {
+            mEditTextInput.setVisibility(View.VISIBLE);
+            mButtonSet.setVisibility(View.VISIBLE);
+            mButtonReset.setVisibility(View.VISIBLE);
+            mButtonStartPause.setText("Pause");
+        } else {
+            mEditTextInput.setVisibility(View.VISIBLE);
+            mButtonSet.setVisibility(View.VISIBLE);
+            mButtonStartPause.setText("Start");
+
+            if (mTimeLeftInMillis < 1000) {
+                mButtonStartPause.setVisibility(View.VISIBLE);
+            } else {
+                mButtonStartPause.setVisibility(View.VISIBLE);
+            }
+
+            if (mTimeLeftInMillis < mStartTimeInMillis) {
+                mButtonReset.setVisibility(View.VISIBLE);
+            } else {
+                mButtonReset.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putLong("startTimeInMillis", mStartTimeInMillis);
+        editor.putLong("millisLeft", mTimeLeftInMillis);
+        editor.putBoolean("timerRunning", mTimerRunning);
+        editor.putLong("endTime", mEndTime);
+
+        editor.apply();
+
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+
+        mStartTimeInMillis = prefs.getLong("startTimeInMillis", 600000);
+        mTimeLeftInMillis = prefs.getLong("millisLeft", mStartTimeInMillis);
+        mTimerRunning = prefs.getBoolean("timerRunning", false);
+
+        updateCountDownText();
+        updateWatchInterface();
+
+        if (mTimerRunning) {
+            mEndTime = prefs.getLong("endTime", 0);
+            mTimeLeftInMillis = mEndTime - System.currentTimeMillis();
+
+            if (mTimeLeftInMillis < 0) {
+                mTimeLeftInMillis = 0;
+                mTimerRunning = false;
+                updateCountDownText();
+                updateWatchInterface();
+            } else {
+                startTimer();
+            }
+        }
+    }
+
 
 
 
