@@ -31,7 +31,6 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -81,16 +80,12 @@ public class MainActivity extends AppCompatActivity {
 
     /* Handler */
 
-
     public static Handler handler;
     public static BluetoothSocket mmSocket;
     public static ConnectedThread connectedThread;
     public static CreateConnectThread createConnectThread;
 
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
-
-
-
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -195,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                             seekBar.setEnabled(true);
                             seekBarReverse.setEnabled(true);
 
-                            /* Enable textfield for timer */
+                            /* Enable text field for timer */
 
                             inputTime.setEnabled(true);
                             setTimeButton.setEnabled(true);
@@ -430,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**************************************END OF ONCREATE *************************************************/
+    /**************************************END OF ON CREATE *************************************************/
 
 
     /* Timer Methods */
@@ -448,6 +443,9 @@ public class MainActivity extends AppCompatActivity {
 
         final TextView DirectionText = findViewById(R.id.Dir);
         final MediaPlayer beepSound = MediaPlayer.create(MainActivity.this,R.raw.beep);
+        final TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
+        final Button buttonOn = findViewById(R.id.buttonOn);
+        final Button buttonOff = findViewById(R.id.buttonOff);
         SeekBar seekBar = findViewById(R.id.seekBar);
         SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
 
@@ -482,6 +480,22 @@ public class MainActivity extends AppCompatActivity {
                 assert cmdText != null;
                 connectedThread.write(cmdText);
                 beepSound.start();
+
+                /* Controls disabled until on button is clicked */
+
+                RPMDisplay.setText("0");
+                DirectionText.setText("Off");
+                seekBar.setEnabled(false);
+                seekBarReverse.setEnabled(false);
+                seekBar.setProgress(0);
+                seekBarReverse.setProgress(0);
+                buttonOn.setEnabled(true);
+                buttonOff.setEnabled(false);
+                inputTime.setEnabled(false);
+                resetTimeButton.setEnabled(false);
+                setTimeButton.setEnabled(false);
+                startPauseTimeButton.setEnabled(false);
+
 
             }
         }.start();
@@ -646,8 +660,10 @@ public class MainActivity extends AppCompatActivity {
 
                 // Send command to Arduino board
 
+                String cmdText = "<turn off>";
+                assert cmdText != null; // Required to prevent crashes upon accidental drop as it attempts to send a BT command when BT not connected.
+                connectedThread.write(cmdText);
                 beepSound.start();
-                connectedThread.write("<turn off>");
 
             }
         }
