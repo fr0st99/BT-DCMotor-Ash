@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     private CountDownTimer myCountDownTimer;
 
-    private boolean mTimerRunning;
+    private boolean countDownTimerRunning;
 
     private long mStartTimeInMillis;
     private long mTimeLeftInMillis;
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
+
         BroadcastReceiver msgReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
                 RPMDisplay.setText(rpmValue);
 
-                rpmGauge = (Gauge) findViewById(R.id.gauge);
+                rpmGauge = findViewById(R.id.gauge);
 
                 float gaugeVal = Float.parseFloat(rpmValue);
                 rpmGauge.moveToValue(gaugeVal);
@@ -118,16 +119,12 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver, new IntentFilter("rpmData"));
 
+
         inputTime = findViewById(R.id.edit_text_input);
         countDownText = findViewById(R.id.text_view_countdown);
-
         setTimeButton = findViewById(R.id.button_set);
         startPauseTimeButton = findViewById(R.id.button_start_pause);
         resetTimeButton = findViewById(R.id.button_reset);
-
-
-
-
 
         /* For User Interface */
 
@@ -139,10 +136,7 @@ public class MainActivity extends AppCompatActivity {
         final Button buttonOff = findViewById(R.id.buttonOff);
         final TextView PWMText = findViewById(R.id.PWMValue);
         final Button aboutButton = findViewById(R.id.aboutButton);
-
-
         SeekBar seekBar = findViewById(R.id.seekBar);
-
         SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
 
 
@@ -154,9 +148,6 @@ public class MainActivity extends AppCompatActivity {
         resetTimeButton.setEnabled(false);
         setTimeButton.setEnabled(false);
         startPauseTimeButton.setEnabled(false);
-
-
-
         seekBar.setEnabled(false);
         seekBarReverse.setEnabled(false);
 
@@ -339,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
 
             @SuppressLint("SetTextI18n")
             public void onStopTrackingTouch(SeekBar seekBar) {
-                final TextView DirectionText = (TextView) findViewById(R.id.Dir);
+                final TextView DirectionText = findViewById(R.id.Dir);
                 /* Display motor speed value as a popup (mostly for testing purposes) */
 
                 Toast.makeText(MainActivity.this, "DC Motor Speed Value :" + progressValue, Toast.LENGTH_SHORT).show();
@@ -377,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
 
             @SuppressLint("SetTextI18n")
             public void onStopTrackingTouch(SeekBar seekBarReverse) {
-                final TextView DirectionText = (TextView) findViewById(R.id.Dir);
+                final TextView DirectionText = findViewById(R.id.Dir);
 
 
                 /* Display motor speed value as a popup (mostly for testing purposes) */
@@ -404,53 +395,41 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        /* Time test case */
+        /* Countdown Timer  */
 
 
-        setTimeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String input = inputTime.getText().toString();
-                if (input.length() == 0) {
-                    Toast.makeText(MainActivity.this, "Field can't be empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                long millisInput = Long.parseLong(input) * 60000;
-                if (millisInput == 0) {
-                    Toast.makeText(MainActivity.this, "Please enter a positive number", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                setTime(millisInput);
-                inputTime.setText("");
+        setTimeButton.setOnClickListener(v -> {
+            String input = inputTime.getText().toString();
+            if (input.length() == 0) {
+                Toast.makeText(MainActivity.this, "Field can't be empty", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            long millisInput = Long.parseLong(input) * 60000;
+            if (millisInput == 0) {
+                Toast.makeText(MainActivity.this, "Please enter a positive number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            setTime(millisInput);
+            inputTime.setText("");
         });
 
 
-        startPauseTimeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mTimerRunning) {
-                    pauseTimer();
-                } else {
-                    startTimer();
-                }
+        startPauseTimeButton.setOnClickListener(v -> {
+            if (countDownTimerRunning) {
+                pauseTimer();
+            } else {
+                startTimer();
             }
         });
 
-        resetTimeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetTimer();
-            }
-        });
+        resetTimeButton.setOnClickListener(v -> resetTimer());
 
 
     }
 
 
-    /*******************************************************************************************************/
     /**************************************END OF ONCREATE *************************************************/
 
 
@@ -467,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Declarations */
 
-        final TextView DirectionText = (TextView) findViewById(R.id.Dir);
+        final TextView DirectionText = findViewById(R.id.Dir);
         final MediaPlayer beepSound = MediaPlayer.create(MainActivity.this,R.raw.beep);
         SeekBar seekBar = findViewById(R.id.seekBar);
         SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
@@ -482,6 +461,7 @@ public class MainActivity extends AppCompatActivity {
                 updateCountDownText();
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onFinish() {
 
@@ -494,7 +474,7 @@ public class MainActivity extends AppCompatActivity {
 
                 /* Check timer and send off command to Arduino */
 
-                mTimerRunning = false;
+                countDownTimerRunning = false;
                 updateWatchInterface();
 
                 Toast.makeText(getApplicationContext(), "DC Motor Off, Job completed.", Toast.LENGTH_LONG).show();
@@ -506,13 +486,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }.start();
 
-        mTimerRunning = true;
+        countDownTimerRunning = true;
         updateWatchInterface();
     }
 
     private void pauseTimer() {
         myCountDownTimer.cancel();
-        mTimerRunning = false;
+        countDownTimerRunning = false;
         updateWatchInterface();
     }
 
@@ -540,8 +520,9 @@ public class MainActivity extends AppCompatActivity {
         countDownText.setText(timeLeftFormatted);
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateWatchInterface() {
-        if (mTimerRunning) {
+        if (countDownTimerRunning) {
             inputTime.setVisibility(View.VISIBLE);
             setTimeButton.setVisibility(View.VISIBLE);
             resetTimeButton.setVisibility(View.VISIBLE);
@@ -575,7 +556,7 @@ public class MainActivity extends AppCompatActivity {
 
         editor.putLong("startTimeInMillis", mStartTimeInMillis);
         editor.putLong("millisLeft", mTimeLeftInMillis);
-        editor.putBoolean("timerRunning", mTimerRunning);
+        editor.putBoolean("timerRunning", countDownTimerRunning);
         editor.putLong("endTime", mEndTime);
 
         editor.apply();
@@ -593,18 +574,18 @@ public class MainActivity extends AppCompatActivity {
 
         mStartTimeInMillis = prefs.getLong("startTimeInMillis", 600000);
         mTimeLeftInMillis = prefs.getLong("millisLeft", mStartTimeInMillis);
-        mTimerRunning = prefs.getBoolean("timerRunning", false);
+        countDownTimerRunning = prefs.getBoolean("timerRunning", false);
 
         updateCountDownText();
         updateWatchInterface();
 
-        if (mTimerRunning) {
+        if (countDownTimerRunning) {
             mEndTime = prefs.getLong("endTime", 0);
             mTimeLeftInMillis = mEndTime - System.currentTimeMillis();
 
             if (mTimeLeftInMillis < 0) {
                 mTimeLeftInMillis = 0;
-                mTimerRunning = false;
+                countDownTimerRunning = false;
                 updateCountDownText();
                 updateWatchInterface();
             } else {
@@ -630,7 +611,7 @@ public class MainActivity extends AppCompatActivity {
             float z = event.values[2];
             LastAccel = CurrentAccel;
 
-            CurrentAccel = (float) Math.sqrt((double) (x * x + y * y + z * z));
+            CurrentAccel = (float) Math.sqrt(x * x + y * y + z * z);
 
             float delta = CurrentAccel - LastAccel;
 
@@ -644,8 +625,8 @@ public class MainActivity extends AppCompatActivity {
 
                 SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
 
-                final TextView RPMDisplay = (TextView) findViewById(R.id.RPMDisplayMain);
-                final TextView DirectionText = (TextView) findViewById(R.id.Dir);
+                final TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
+                final TextView DirectionText = findViewById(R.id.Dir);
                 final Button buttonOn = findViewById(R.id.buttonOn);
                 final Button buttonOff = findViewById(R.id.buttonOff);
 
