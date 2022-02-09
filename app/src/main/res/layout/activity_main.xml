@@ -76,32 +76,32 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.001" />
 
+
     <TextView
         android:id="@+id/textViewInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="84dp"
         android:layout_marginEnd="16dp"
         android:textAlignment="center"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
-
 
     <Button
         android:id="@+id/aboutButton"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="210dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="1192dp"
+        android:layout_width="120dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="1120dp"
         android:text="About"
-        android:textSize="24sp"
+        android:textSize="14sp"
         app:backgroundTint="#1AB4CF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -114,7 +114,7 @@
         android:text="Off"
         android:textSize="20pt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.959"
+        app:layout_constraintHorizontal_bias="0.919"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
@@ -127,7 +127,7 @@
         android:text="0"
         android:textSize="20pt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.959"
+        app:layout_constraintHorizontal_bias="0.919"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
@@ -140,7 +140,7 @@
         android:text="@string/RPMDisplay"
         android:textSize="13pt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.593"
+        app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
@@ -153,7 +153,7 @@
         android:text="@string/DirDisplay"
         android:textSize="13pt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.593"
+        app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
@@ -166,7 +166,7 @@
         android:text="@string/PWMDisplay"
         android:textSize="13pt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.593"
+        app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
@@ -179,7 +179,7 @@
         android:text="Off"
         android:textSize="20pt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.959"
+        app:layout_constraintHorizontal_bias="0.919"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
@@ -253,6 +253,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <de.nitri.gauge.Gauge
         android:id="@+id/gauge"
         android:layout_width="218dp"
@@ -260,7 +261,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintHorizontal_bias="0.101"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonOff"
 
@@ -270,7 +271,6 @@
         gauge:totalNicks="120"
         gauge:valuePerNick="32" />
 
-
     <EditText
         android:id="@+id/edit_text_input"
         android:layout_width="120dp"
@@ -279,6 +279,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         android:hint="Minutes"
+        android:gravity="center"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:inputType="number"
@@ -289,12 +290,13 @@
 
     <Button
         android:id="@+id/button_set"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="57dp"
         android:layout_alignTop="@+id/edit_text_input"
         android:layout_marginTop="24dp"
         android:layout_toEndOf="@+id/edit_text_input"
         android:text="Set"
+        app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_input" />
@@ -316,29 +318,31 @@
 
     <Button
         android:id="@+id/button_start_pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="57dp"
         android:layout_below="@+id/text_view_countdown"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:text="start"
+        app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.353"
+        app:layout_constraintHorizontal_bias="0.301"
         app:layout_constraintLeft_toRightOf="@id/button_set"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_input" />
 
     <Button
         android:id="@+id/button_reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="57dp"
         android:layout_below="@+id/text_view_countdown"
         android:layout_marginTop="24dp"
         android:layout_toEndOf="@+id/button_start_pause"
         android:text="reset"
         android:visibility="visible"
+        app:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.646"
+        app:layout_constraintHorizontal_bias="0.697"
         app:layout_constraintRight_toLeftOf="@id/button_set"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_input" />

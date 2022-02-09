@@ -25,7 +25,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -52,13 +51,13 @@ public class MainActivity extends AppCompatActivity {
 
     /* For Timer */
 
-    private EditText mEditTextInput;
-    private TextView mTextViewCountDown;
-    private Button mButtonSet;
-    private Button mButtonStartPause;
-    private Button mButtonReset;
+    private EditText inputTime;
+    private TextView countDownText;
+    private Button setTimeButton;
+    private Button startPauseTimeButton;
+    private Button resetTimeButton;
 
-    private CountDownTimer mCountDownTimer;
+    private CountDownTimer myCountDownTimer;
 
     private boolean mTimerRunning;
 
@@ -119,12 +118,12 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver, new IntentFilter("rpmData"));
 
-        mEditTextInput = findViewById(R.id.edit_text_input);
-        mTextViewCountDown = findViewById(R.id.text_view_countdown);
+        inputTime = findViewById(R.id.edit_text_input);
+        countDownText = findViewById(R.id.text_view_countdown);
 
-        mButtonSet = findViewById(R.id.button_set);
-        mButtonStartPause = findViewById(R.id.button_start_pause);
-        mButtonReset = findViewById(R.id.button_reset);
+        setTimeButton = findViewById(R.id.button_set);
+        startPauseTimeButton = findViewById(R.id.button_start_pause);
+        resetTimeButton = findViewById(R.id.button_reset);
 
 
 
@@ -151,10 +150,10 @@ public class MainActivity extends AppCompatActivity {
 
         buttonOn.setEnabled(false);
         buttonOff.setEnabled(false);
-        mEditTextInput.setEnabled(false);
-        mButtonReset.setEnabled(false);
-        mButtonSet.setEnabled(false);
-        mButtonStartPause.setEnabled(false);
+        inputTime.setEnabled(false);
+        resetTimeButton.setEnabled(false);
+        setTimeButton.setEnabled(false);
+        startPauseTimeButton.setEnabled(false);
 
 
 
@@ -207,10 +206,10 @@ public class MainActivity extends AppCompatActivity {
 
                             /* Enable textfield for timer */
 
-                            mEditTextInput.setEnabled(true);
-                            mButtonSet.setEnabled(true);
-                            mButtonStartPause.setEnabled(true);
-                            mButtonReset.setEnabled(true);
+                            inputTime.setEnabled(true);
+                            setTimeButton.setEnabled(true);
+                            startPauseTimeButton.setEnabled(true);
+                            resetTimeButton.setEnabled(true);
 
                             break;
                         case -1:
@@ -249,10 +248,10 @@ public class MainActivity extends AppCompatActivity {
 
             /* Turn on timer controls */
 
-            mEditTextInput.setEnabled(true);
-            mButtonReset.setEnabled(true);
-            mButtonSet.setEnabled(true);
-            mButtonStartPause.setEnabled(true);
+            inputTime.setEnabled(true);
+            resetTimeButton.setEnabled(true);
+            setTimeButton.setEnabled(true);
+            startPauseTimeButton.setEnabled(true);
 
 
 
@@ -296,10 +295,10 @@ public class MainActivity extends AppCompatActivity {
 
                 /* Turn off timer controls */
 
-                mEditTextInput.setEnabled(false);
-                mButtonReset.setEnabled(false);
-                mButtonSet.setEnabled(false);
-                mButtonStartPause.setEnabled(false);
+                inputTime.setEnabled(false);
+                resetTimeButton.setEnabled(false);
+                setTimeButton.setEnabled(false);
+                startPauseTimeButton.setEnabled(false);
 
 
                 if ("turn off".equals(buttonStatus)) {
@@ -408,10 +407,10 @@ public class MainActivity extends AppCompatActivity {
         /* Time test case */
 
 
-        mButtonSet.setOnClickListener(new View.OnClickListener() {
+        setTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String input = mEditTextInput.getText().toString();
+                String input = inputTime.getText().toString();
                 if (input.length() == 0) {
                     Toast.makeText(MainActivity.this, "Field can't be empty", Toast.LENGTH_SHORT).show();
                     return;
@@ -424,12 +423,12 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 setTime(millisInput);
-                mEditTextInput.setText("");
+                inputTime.setText("");
             }
         });
 
 
-        mButtonStartPause.setOnClickListener(new View.OnClickListener() {
+        startPauseTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mTimerRunning) {
@@ -440,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mButtonReset.setOnClickListener(new View.OnClickListener() {
+        resetTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetTimer();
@@ -449,6 +448,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+    /*******************************************************************************************************/
+    /**************************************END OF ONCREATE *************************************************/
 
 
     /* Timer Methods */
@@ -472,7 +475,7 @@ public class MainActivity extends AppCompatActivity {
 
         mEndTime = System.currentTimeMillis() + mTimeLeftInMillis;
 
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+        myCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
@@ -508,7 +511,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void pauseTimer() {
-        mCountDownTimer.cancel();
+        myCountDownTimer.cancel();
         mTimerRunning = false;
         updateWatchInterface();
     }
@@ -534,30 +537,30 @@ public class MainActivity extends AppCompatActivity {
                     "%02d:%02d", minutes, seconds);
         }
 
-        mTextViewCountDown.setText(timeLeftFormatted);
+        countDownText.setText(timeLeftFormatted);
     }
 
     private void updateWatchInterface() {
         if (mTimerRunning) {
-            mEditTextInput.setVisibility(View.VISIBLE);
-            mButtonSet.setVisibility(View.VISIBLE);
-            mButtonReset.setVisibility(View.VISIBLE);
-            mButtonStartPause.setText("Pause");
+            inputTime.setVisibility(View.VISIBLE);
+            setTimeButton.setVisibility(View.VISIBLE);
+            resetTimeButton.setVisibility(View.VISIBLE);
+            startPauseTimeButton.setText("Pause");
         } else {
-            mEditTextInput.setVisibility(View.VISIBLE);
-            mButtonSet.setVisibility(View.VISIBLE);
-            mButtonStartPause.setText("Start");
+            inputTime.setVisibility(View.VISIBLE);
+            setTimeButton.setVisibility(View.VISIBLE);
+            startPauseTimeButton.setText("Start");
 
             if (mTimeLeftInMillis < 1000) {
-                mButtonStartPause.setVisibility(View.VISIBLE);
+                startPauseTimeButton.setVisibility(View.VISIBLE);
             } else {
-                mButtonStartPause.setVisibility(View.VISIBLE);
+                startPauseTimeButton.setVisibility(View.VISIBLE);
             }
 
             if (mTimeLeftInMillis < mStartTimeInMillis) {
-                mButtonReset.setVisibility(View.VISIBLE);
+                resetTimeButton.setVisibility(View.VISIBLE);
             } else {
-                mButtonReset.setVisibility(View.VISIBLE);
+                resetTimeButton.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -577,8 +580,8 @@ public class MainActivity extends AppCompatActivity {
 
         editor.apply();
 
-        if (mCountDownTimer != null) {
-            mCountDownTimer.cancel();
+        if (myCountDownTimer != null) {
+            myCountDownTimer.cancel();
         }
     }
 
