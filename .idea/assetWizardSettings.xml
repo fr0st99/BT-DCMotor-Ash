@@ -80,7 +80,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\Big Chungus\Downloads\download (1).png" />
+                                                <entry key="imagePath" value="C:\Users\Big Chungus\Desktop\FYP\Logos\app_icon.png" />
+                                                <entry key="scalingPercent" value="69" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -108,11 +109,6 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
-                                    </map>
-                                  </option>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="outputName" value="ic_launcher_ul18249094" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -216,7 +212,8 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="imagePath" value="C:\Users\Big Chungus\Desktop\FYPAndroid_StudioSC\app\src\main\imageedit_3_5444803497-1 (1).png" />
+                                                <entry key="imagePath" value="C:\Users\Big Chungus\Desktop\FYPAndroid_StudioSC\app\src\main\app_icon.png" />
+                                                <entry key="scalingPercent" value="57" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -228,8 +225,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="scalingPercent" value="110" />
-                                                <entry key="text" value="" />
+                                                <entry key="scalingPercent" value="75" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -239,8 +235,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="generateLegacyIcon" value="false" />
-                                      <entry key="outputName" value="ic_banner_2" />
+                                      <entry key="outputName" value="ic_banner_2_2" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -302,11 +297,6 @@
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="TV_BANNER" />
                           </map>
                         </option>
                       </PersistentState>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FYP_Bluetooth Control 18249094</string>
+    <string name="app_name">DC Motor Genie</string>
     <string name="RPMDisplay">Current RPM is:</string>
     <string name="DirDisplay">Direction:</string>
     <string name="PWMDisplay">PWM Value:</string>

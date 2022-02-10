@@ -6,14 +6,44 @@
     android:id="@+id/constrainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
+    android:background="#FCFBFD"
     tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/userNameText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="172dp"
+        android:gravity="center"
+        android:text="user_name"
+        android:textColor="#000000"
+        android:textSize="32sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="205dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="124dp"
+        android:gravity="center"
+        android:text="Welcome"
+        android:textColor="#000000"
+        android:textSize="32sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#4CAF50"
+        android:background="#2196F3"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,25 +58,26 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="147dp"
         android:layout_height="63dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="44dp"
         android:text="Connect"
         android:textColor="@android:color/background_light"
-        app:backgroundTint="#1C431D"
+        app:backgroundTint="#775f96"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
         app:layout_constraintTop_toTopOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/buttonOn"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="210dp"
         android:layout_height="56dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="104dp"
         android:text="Turn On"
         android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
+        app:backgroundTint="#2196F3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,14 +86,15 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="209dp"
         android:layout_height="56dp"
-        android:layout_marginTop="184dp"
+        android:layout_marginTop="172dp"
         android:text="Turn Off"
         android:textSize="24sp"
-        app:backgroundTint="#4CAF50"
+        app:backgroundTint="#2196F3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -71,11 +103,10 @@
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.676"
+        app:layout_constraintHorizontal_bias="0.741"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.001" />
-
+        app:layout_constraintVertical_bias="0.002" />
 
     <TextView
         android:id="@+id/textViewInfo"
@@ -96,12 +127,11 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="120dp"
         android:layout_height="57dp"
-        android:layout_marginTop="1120dp"
+        android:layout_marginTop="1104dp"
         android:text="About"
         android:textSize="14sp"
-        app:backgroundTint="#1AB4CF"
+        app:backgroundTint="#2196F3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -296,7 +326,7 @@
         android:layout_marginTop="24dp"
         android:layout_toEndOf="@+id/edit_text_input"
         android:text="Set"
-        app:backgroundTint="#4CAF50"
+        app:backgroundTint="#2196F3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_input" />
@@ -324,7 +354,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:text="start"
-        app:backgroundTint="#4CAF50"
+        app:backgroundTint="#2196F3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.301"
         app:layout_constraintLeft_toRightOf="@id/button_set"
@@ -340,7 +370,7 @@
         android:layout_toEndOf="@+id/button_start_pause"
         android:text="reset"
         android:visibility="visible"
-        app:backgroundTint="#4CAF50"
+        app:backgroundTint="#2196F3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.697"
         app:layout_constraintRight_toLeftOf="@id/button_set"

@@ -48,6 +48,9 @@ import de.nitri.gauge.Gauge;
 public class MainActivity extends AppCompatActivity {
 
 
+    public TextView userNameText;
+
+
     /* For Timer */
 
     private EditText inputTime;
@@ -114,6 +117,21 @@ public class MainActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver, new IntentFilter("rpmData"));
 
+
+        /* Welcome Text */
+
+
+
+        userNameText = (TextView) findViewById(R.id.userNameText);
+
+
+
+        SharedPreferences results = getSharedPreferences("username", Context.MODE_PRIVATE);
+        String value = results.getString("Value", "No username found");
+        userNameText.setText(value);
+
+
+        /* Timer views */
 
         inputTime = findViewById(R.id.edit_text_input);
         countDownText = findViewById(R.id.text_view_countdown);
