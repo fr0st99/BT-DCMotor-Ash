@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        userNameText = (TextView) findViewById(R.id.userNameText);
+        userNameText = findViewById(R.id.userNameText);
 
 
 
