@@ -143,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
         /* For User Interface */
 
         final Button buttonConnect = findViewById(R.id.buttonConnect);
+        final ImageButton connectIcon = findViewById(R.id.connectIcon);
+        final ImageButton disconnectIcon = findViewById(R.id.disconnectIcon);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
@@ -164,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         startPauseTimeButton.setEnabled(false);
         seekBar.setEnabled(false);
         seekBarReverse.setEnabled(false);
+
 
 
         // If a bluetooth device has been selected from BTConnectActivity
@@ -231,11 +234,36 @@ public class MainActivity extends AppCompatActivity {
         };
 
 
-        // Select Bluetooth Device
+        /*
         buttonConnect.setOnClickListener(view -> {
             // Move to adapter list
             Intent intent = new Intent(MainActivity.this, BTConnectActivity.class);
             startActivity(intent);
+        }); */
+
+        /* Connect to BT device */
+
+        connectIcon.setOnClickListener(view -> {
+            // Move to adapter list
+            Intent intent = new Intent(MainActivity.this, BTConnectActivity.class);
+            startActivity(intent);
+
+
+        });
+
+        /* Disconnect from currently connected BT device */
+
+        disconnectIcon.setOnClickListener(view -> {
+            createConnectThread.cancel();
+            toolbar.setSubtitle("");
+            Toast.makeText(getApplicationContext(), "Disconnected from " +deviceID, Toast.LENGTH_SHORT).show();
+            inputTime.setEnabled(false);
+            setTimeButton.setEnabled(false);
+            startPauseTimeButton.setEnabled(false);
+            resetTimeButton.setEnabled(false);
+            buttonOn.setEnabled(false);
+
+
         });
 
 
