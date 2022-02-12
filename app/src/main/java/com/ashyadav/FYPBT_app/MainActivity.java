@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -536,11 +537,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateCountDownText() {
+
+        String timeLeftFormatted;
+
         int hours = (int) (mTimeLeftInMillis / 1000) / 3600;
         int minutes = (int) ((mTimeLeftInMillis / 1000) % 3600) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
 
-        String timeLeftFormatted;
+
         if (hours > 0) {
             timeLeftFormatted = String.format(Locale.getDefault(),
                     "%d:%02d:%02d", hours, minutes, seconds);
@@ -654,9 +658,7 @@ public class MainActivity extends AppCompatActivity {
                 final MediaPlayer beepSound = MediaPlayer.create(MainActivity.this,R.raw.beep);
 
                 SeekBar seekBar = findViewById(R.id.seekBar);
-
                 SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
-
                 final TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
                 final TextView DirectionText = findViewById(R.id.Dir);
                 final Button buttonOn = findViewById(R.id.buttonOn);
@@ -674,7 +676,6 @@ public class MainActivity extends AppCompatActivity {
                 seekBarReverse.setProgress(0);
                 buttonOn.setEnabled(true);
                 buttonOff.setEnabled(false);
-
 
                 // Send command to Arduino board
 
