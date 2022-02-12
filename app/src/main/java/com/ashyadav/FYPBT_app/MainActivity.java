@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
         /* For User Interface */
 
-        final Button buttonConnect = findViewById(R.id.buttonConnect);
         final ImageButton connectIcon = findViewById(R.id.connectIcon);
         final ImageButton disconnectIcon = findViewById(R.id.disconnectIcon);
         final Toolbar toolbar = findViewById(R.id.toolbar);
@@ -166,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
         startPauseTimeButton.setEnabled(false);
         seekBar.setEnabled(false);
         seekBarReverse.setEnabled(false);
+        disconnectIcon.setEnabled(false);
+        ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0x3F);
 
 
 
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
             // Show progress and connection status
             toolbar.setSubtitle("Connecting to " + deviceID + "...");
             progressBar.setVisibility(View.VISIBLE);
-            buttonConnect.setEnabled(false);
+            //connectIcon.setEnabled(false);
 
 
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -202,7 +203,9 @@ public class MainActivity extends AppCompatActivity {
                         case 1:
                             toolbar.setSubtitle("Connected to " + deviceID);
                             progressBar.setVisibility(View.GONE);
-                            buttonConnect.setEnabled(true);
+                            ((ImageButton) findViewById(R.id.connectIcon)).setImageAlpha(0x3F);
+                            ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0xFF);
+                            disconnectIcon.setEnabled(true);
                             buttonOn.setEnabled(true);
                             buttonOff.setEnabled(false);
                             successMP.start();
@@ -223,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                         case -1:
                             toolbar.setSubtitle("Error: Unable to connect");
                             progressBar.setVisibility(View.GONE);
-                            buttonConnect.setEnabled(true);
+                            connectIcon.setEnabled(true);
                             failMP.start();
                             break;
                     }
@@ -234,12 +237,6 @@ public class MainActivity extends AppCompatActivity {
         };
 
 
-        /*
-        buttonConnect.setOnClickListener(view -> {
-            // Move to adapter list
-            Intent intent = new Intent(MainActivity.this, BTConnectActivity.class);
-            startActivity(intent);
-        }); */
 
         /* Connect to BT device */
 
@@ -247,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
             // Move to adapter list
             Intent intent = new Intent(MainActivity.this, BTConnectActivity.class);
             startActivity(intent);
+            ((ImageButton) findViewById(R.id.connectIcon)).setImageAlpha(0x3F);
 
 
         });
@@ -262,6 +260,15 @@ public class MainActivity extends AppCompatActivity {
             startPauseTimeButton.setEnabled(false);
             resetTimeButton.setEnabled(false);
             buttonOn.setEnabled(false);
+
+            seekBar.setProgress(0);
+            seekBar.setEnabled(false);
+            seekBarReverse.setProgress(0);
+            seekBarReverse.setEnabled(false);
+
+
+            ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0x3F);
+            ((ImageButton) findViewById(R.id.connectIcon)).setImageAlpha(0xFF);
 
 
         });
