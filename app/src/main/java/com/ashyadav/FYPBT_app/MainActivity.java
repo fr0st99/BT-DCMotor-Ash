@@ -194,8 +194,9 @@ public class MainActivity extends AppCompatActivity {
 
                 /* Sound effects for success and failure of BT connection - royalty free sounds from https://www.soundjay.com */
 
-                final MediaPlayer successMP = MediaPlayer.create(MainActivity.this, R.raw.btsuccess);
+                final MediaPlayer successMP = MediaPlayer.create(MainActivity.this, R.raw.connected);
                 final MediaPlayer failMP = MediaPlayer.create(MainActivity.this, R.raw.btfail);
+
 
 
                 if (msg.what == CONNECTING_STATUS) {
@@ -212,15 +213,15 @@ public class MainActivity extends AppCompatActivity {
 
                             /* Seek bar for DC motor control enabler */
 
-                            seekBar.setEnabled(true);
-                            seekBarReverse.setEnabled(true);
+                            seekBar.setEnabled(false);
+                            seekBarReverse.setEnabled(false);
 
                             /* Enable text field for timer */
 
-                            inputTime.setEnabled(true);
-                            setTimeButton.setEnabled(true);
-                            startPauseTimeButton.setEnabled(true);
-                            resetTimeButton.setEnabled(true);
+                            inputTime.setEnabled(false);
+                            setTimeButton.setEnabled(false);
+                            startPauseTimeButton.setEnabled(false);
+                            resetTimeButton.setEnabled(false);
 
                             break;
                         case -1:
@@ -247,11 +248,15 @@ public class MainActivity extends AppCompatActivity {
             ((ImageButton) findViewById(R.id.connectIcon)).setImageAlpha(0x3F);
 
 
+
         });
 
         /* Disconnect from currently connected BT device */
 
         disconnectIcon.setOnClickListener(view -> {
+
+            final MediaPlayer disconnected = MediaPlayer.create(MainActivity.this, R.raw.disconnected);
+
             createConnectThread.cancel();
             toolbar.setSubtitle("");
             Toast.makeText(getApplicationContext(), "Disconnected from " +deviceID, Toast.LENGTH_SHORT).show();
@@ -265,6 +270,8 @@ public class MainActivity extends AppCompatActivity {
             seekBar.setEnabled(false);
             seekBarReverse.setProgress(0);
             seekBarReverse.setEnabled(false);
+            disconnected.start();
+
 
 
             ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0x3F);
@@ -688,7 +695,7 @@ public class MainActivity extends AppCompatActivity {
 
             Acceleration = Acceleration * 0.9f + delta;
 
-            if (Acceleration > 18) {
+            if (Acceleration > 14) {
 
                 final MediaPlayer beepSound = MediaPlayer.create(MainActivity.this,R.raw.beep);
 
@@ -712,13 +719,20 @@ public class MainActivity extends AppCompatActivity {
                 buttonOn.setEnabled(true);
                 buttonOff.setEnabled(false);
 
+                inputTime.setEnabled(false);
+                resetTimeButton.setEnabled(false);
+                setTimeButton.setEnabled(false);
+                startPauseTimeButton.setEnabled(false);
+
                 // Send command to Arduino board
 
                 String cmdText = "<turn off>";
                 assert cmdText != null; // Required to prevent crashes upon accidental drop as it attempts to send a BT command when BT not connected.
                 connectedThread.write(cmdText);
-                beepSound.start();
+                onStop();
+                resetTimer();
 
+                beepSound.start();
             }
         }
 

@@ -8,6 +8,7 @@
         This app was developed by Ashutosh Yadav \n Student ID number 18249094 \n Submitted to the University of Limerick in partial fulfilment of the requirements for the \n Bachelor of Computer Science  in Cybersecurity and IT Forensics \n Supervised by Prof. Hussain Mahdi
     </string>
     <string name="circuitschematic">Circuit Schematic</string>
+    <string name="please_enter_your_name">Please enter your name</string>
 
 
 </resources>
