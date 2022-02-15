@@ -40,7 +40,7 @@ void setup() {
 void loop() {
 
 // RPM value calculation from IR proximity sensor data 
-  delay(1000);
+  delay(500);
   detachInterrupt(0);                   
   time = millis() - prev;         
   rpm_val = (rev/time) * 60000;
@@ -49,11 +49,9 @@ void loop() {
   rev = 0;
   Serial.println("RPM Value");
   Serial.println(rpm_val);
-  Serial.println("RPS Value");
-  Serial.println(rps_val);
   attachInterrupt(1, isr, RISING);
   bluetoothSerial.print(rpm_val);
-  delay(20);
+  delay(500);
   
   
   if (bluetoothSerial.available() > 0){ 
