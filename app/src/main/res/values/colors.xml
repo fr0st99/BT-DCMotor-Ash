@@ -5,4 +5,8 @@
     <color name="colorAccent">#E040FB</color>
     <color name="colorOff">#FFFFFF</color>
     <color name="colorOn">#E040FB</color>
+
+    <color name="backgroundColor">#FCFCFC</color>
+    <color name="textColor">#505050</color>
+
 </resources>

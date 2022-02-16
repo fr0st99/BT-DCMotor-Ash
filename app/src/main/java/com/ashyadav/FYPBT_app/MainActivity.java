@@ -32,8 +32,11 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     /* For welcome text */
 
     public TextView userNameText;
+    private Button toggleTheme;
 
     /* For Timer */
 
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private float LastAccel;
     Gauge rpmGauge;
 
+
     /* Handler */
 
     public static Handler handler;
@@ -90,8 +95,14 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // prevent timeout or screen off during operation
+
+
+
+
 
 
 
@@ -123,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences results = getSharedPreferences("username", Context.MODE_PRIVATE);
         String value = results.getString("Value", "No username found");
         userNameText.setText(value);
+        ToggleButton darkModeToggle = findViewById(R.id.themeToggle);
 
 
         /* Timer views */
@@ -148,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
         SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
 
 
+
         /* Set buttons to not visible so they can't be clicked before BT connection */
 
         buttonOn.setEnabled(false);
@@ -160,6 +173,45 @@ public class MainActivity extends AppCompatActivity {
         seekBarReverse.setEnabled(false);
         disconnectIcon.setEnabled(false);
         ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0x3F);
+
+        /**************************************Dark Mode Toggle *************************************************/
+
+        /* Thanks to https://www.geeksforgeeks.org/how-to-implement-dark-night-mode-in-android-app/ for tutorial on using shared preferences for storing dark mode setting */
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        final boolean checkDarkMode = sharedPreferences.getBoolean("checkDarkMode", false);
+
+        if (checkDarkMode) { AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            // Light Mode
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            //Dark Mode
+        }
+
+        darkModeToggle.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                if (checkDarkMode) {
+
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    editor.putBoolean("checkDarkMode", false);
+                    editor.apply();
+
+
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+
+                    editor.putBoolean("checkDarkMode", true);
+                    editor.apply();
+
+                }
+            }
+        });
 
 
         // If a bluetooth device has been selected from BTConnectActivity
@@ -253,6 +305,8 @@ public class MainActivity extends AppCompatActivity {
             startPauseTimeButton.setEnabled(false);
             resetTimeButton.setEnabled(false);
             buttonOn.setEnabled(false);
+
+
 
             seekBar.setProgress(0);
             seekBar.setEnabled(false);
@@ -443,7 +497,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        /* Countdown Timer  */
+        /**************************************Countdown Timer *************************************************/
 
 
         setTimeButton.setOnClickListener(v -> {
@@ -473,6 +527,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         resetTimeButton.setOnClickListener(v -> resetTimer());
+
+
 
 
     }

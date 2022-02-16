@@ -6,8 +6,9 @@
     android:id="@+id/constrainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FCFBFD"
+    android:background="@color/backgroundColor"
     tools:context=".MainActivity">
+
 
     <TextView
         android:id="@+id/userNameText"
@@ -16,11 +17,11 @@
         android:layout_marginTop="172dp"
         android:gravity="center"
         android:text="user_name"
-        android:textColor="#000000"
+        android:textColor="@color/textColor"
         android:textSize="32sp"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,14 +29,14 @@
         android:id="@+id/welcomeText"
         android:layout_width="205dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="116dp"
         android:gravity="center"
         android:text="Welcome"
-        android:textColor="#000000"
+        android:textColor="@color/textColor"
         android:textSize="32sp"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintHorizontal_bias="0.099"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,14 +48,12 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:subtitleTextColor="@android:color/background_light"
         app:title="Bluetooth Connection Status"
         app:titleTextColor="@android:color/background_light" />
-
-
-
 
     <Button
         android:id="@+id/buttonOn"
@@ -92,10 +91,10 @@
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.739"
+        app:layout_constraintHorizontal_bias="0.611"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.003" />
+        app:layout_constraintVertical_bias="0.002" />
 
     <TextView
         android:id="@+id/textViewInfo"
@@ -131,6 +130,7 @@
         android:layout_marginTop="112dp"
         android:gravity="center"
         android:text="Off"
+        android:textColor="@color/textColor"
         android:textSize="20pt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.919"
@@ -144,6 +144,7 @@
         android:layout_marginTop="256dp"
         android:gravity="center"
         android:text="0"
+        android:textColor="@color/textColor"
         android:textSize="20pt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.919"
@@ -157,6 +158,7 @@
         android:layout_marginTop="112dp"
         android:gravity="center"
         android:text="@string/RPMDisplay"
+        android:textColor="@color/textColor"
         android:textSize="13pt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.554"
@@ -170,6 +172,7 @@
         android:layout_marginTop="184dp"
         android:gravity="center"
         android:text="@string/DirDisplay"
+        android:textColor="@color/textColor"
         android:textSize="13pt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.554"
@@ -183,6 +186,7 @@
         android:layout_marginTop="256dp"
         android:gravity="center"
         android:text="@string/PWMDisplay"
+        android:textColor="@color/textColor"
         android:textSize="13pt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.554"
@@ -196,6 +200,7 @@
         android:layout_marginTop="184dp"
         android:gravity="center"
         android:text="Off"
+        android:textColor="@color/textColor"
         android:textSize="20pt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.919"
@@ -232,6 +237,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:text="Min"
+        android:textColor="@color/textColor"
         android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.078"
@@ -244,6 +250,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="0"
+        android:textColor="@color/textColor"
         android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
@@ -256,6 +263,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:text="Max"
+        android:textColor="@color/textColor"
         android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.921"
@@ -268,6 +276,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="3250"
+        android:textColor="@color/textColor"
         android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.931"
@@ -280,6 +289,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="Forward"
+        android:textColor="@color/textColor"
         android:textSize="26dp"
         app:layout_constraintBottom_toTopOf="@id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -291,6 +301,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="Reverse"
+        android:textColor="@color/textColor"
         android:textSize="26dp"
         app:layout_constraintBottom_toTopOf="@id/seekBarReverse"
         app:layout_constraintEnd_toEndOf="parent"
@@ -322,6 +333,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
         android:hint="Minutes"
+        android:textColor="@color/textColor"
         android:gravity="center"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -352,7 +364,7 @@
         android:layout_centerVertical="true"
         android:layout_marginTop="60dp"
         android:text="00:00"
-        android:textColor="@android:color/black"
+        android:textColor="@color/textColor"
         android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"
@@ -367,6 +379,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:text="start"
+
         app:backgroundTint="#01a951"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.301"
@@ -394,25 +407,39 @@
         android:id="@+id/connectIcon"
         android:layout_width="61dp"
         android:layout_height="61dp"
-        android:layout_marginEnd="120dp"
+        android:layout_marginEnd="196dp"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
         app:layout_constraintTop_toTopOf="@+id/toolbar"
         app:layout_constraintVertical_bias="1.0"
-        gauge:srcCompat="@drawable/connect_light_green_small_new" />
+        app:srcCompat="@drawable/connect_light_green_small_new" />
 
     <ImageButton
         android:id="@+id/disconnectIcon"
         android:layout_width="61dp"
         android:layout_height="61dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginEnd="108dp"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
         app:layout_constraintTop_toTopOf="@+id/toolbar"
         app:layout_constraintVertical_bias="1.0"
-        gauge:srcCompat="@drawable/disconnect_small" />
+        app:srcCompat="@drawable/disconnect_small" />
+
+    <ToggleButton
+        android:id="@+id/themeToggle"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:background="@drawable/ic_toggle"
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.963"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.002" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
