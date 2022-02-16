@@ -10,9 +10,11 @@ int i = 0;
 int speed;
 float rev = 0;
 int rpm_val;
-int rps_val;
 int prev = 0;
 int time;
+
+int value = 0;
+float voltage;
 
 
 #define pwm1     10   //input 2
@@ -43,15 +45,22 @@ void loop() {
   delay(500);
   detachInterrupt(0);                   
   time = millis() - prev;         
-  rpm_val = (rev/time) * 60000;
-  rps_val = (rev/time) * 1000;        
+  rpm_val = (rev/time) * 60000;     
   prev = millis();                  
   rev = 0;
   Serial.println("RPM Value");
   Serial.println(rpm_val);
   attachInterrupt(1, isr, RISING);
-  bluetoothSerial.print(rpm_val);
+  bluetoothSerial.println(rpm_val);
   delay(500);
+
+  value = analogRead(A0);
+  voltage = value * 5.0/1023;
+  Serial.print("Voltage= ");
+  Serial.println(voltage);
+  //bluetoothSerial.println(voltage );
+  delay(500);
+  
   
   
   if (bluetoothSerial.available() > 0){ 
