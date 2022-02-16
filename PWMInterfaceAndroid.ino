@@ -42,23 +42,27 @@ void setup() {
 void loop() {
 
 // RPM value calculation from IR proximity sensor data 
-  delay(500);
+  delay(750);
   detachInterrupt(0);                   
   time = millis() - prev;         
   rpm_val = (rev/time) * 60000;     
   prev = millis();                  
   rev = 0;
-  Serial.println("RPM Value");
-  Serial.println(rpm_val);
+  //Serial.println("RPM Value");
+  //Serial.println(rpm_val);
   attachInterrupt(1, isr, RISING);
   bluetoothSerial.println(rpm_val);
   delay(500);
+  Serial.flush();
   //bluetoothSerial.print('#');
 
-  value = analogRead(A0);
-  voltage = value * 5.0/1023;
-  Serial.print("Voltage= ");
-  Serial.println(voltage);
+
+  // SCRAPPED VOLTAGE READINGS 
+
+  //value = analogRead(A0);
+  //voltage = value * 5.0/1023;
+  //Serial.print("Voltage= ");
+  //Serial.println(voltage);
   //bluetoothSerial.println(voltage );
   //bluetoothSerial.print('~');
   //delay(500);
