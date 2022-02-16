@@ -43,15 +43,14 @@ import java.io.OutputStream;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import de.nitri.gauge.Gauge;
 
 public class MainActivity extends AppCompatActivity {
 
+    /* For welcome text */
 
     public TextView userNameText;
-
 
     /* For Timer */
 
@@ -60,14 +59,11 @@ public class MainActivity extends AppCompatActivity {
     private Button setTimeButton;
     private Button startPauseTimeButton;
     private Button resetTimeButton;
-
     private CountDownTimer myCountDownTimer;
-
     private boolean countDownTimerRunning;
-
-    private long mStartTimeInMillis;
-    private long mTimeLeftInMillis;
-    private long mEndTime;
+    private long c_StartTimeInMillis;
+    private long c_TimeLeftInMillis;
+    private long c_EndTime;
 
     /* For Device Address */
 
@@ -95,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // prevent timeout or screen off during operation
 
 
 
@@ -122,12 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Welcome Text */
 
-
-
         userNameText = findViewById(R.id.userNameText);
-
-
-
         SharedPreferences results = getSharedPreferences("username", Context.MODE_PRIVATE);
         String value = results.getString("Value", "No username found");
         userNameText.setText(value);
@@ -170,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
         ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0x3F);
 
 
-
         // If a bluetooth device has been selected from BTConnectActivity
         deviceID = getIntent().getStringExtra("deviceName");
         if (deviceID != null) {
@@ -192,13 +183,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void handleMessage(@NonNull Message msg) {
 
-
                 /* Sound effects for success and failure of BT connection - royalty free sounds from https://www.soundjay.com */
 
                 final MediaPlayer successMP = MediaPlayer.create(MainActivity.this, R.raw.connected);
                 final MediaPlayer failMP = MediaPlayer.create(MainActivity.this, R.raw.btfail);
-
-
 
                 if (msg.what == CONNECTING_STATUS) {
                     switch (msg.arg1) {
@@ -237,7 +225,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         };
-
 
 
         /* Connect to BT device */
@@ -362,7 +349,6 @@ public class MainActivity extends AppCompatActivity {
                 connectedThread.write(cmdText);
             }
         });
-
 
 
 
@@ -499,7 +485,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setTime(long milliseconds) {
-        mStartTimeInMillis = milliseconds;
+        c_StartTimeInMillis = milliseconds;
         resetTimer();
 
     }
@@ -515,14 +501,15 @@ public class MainActivity extends AppCompatActivity {
         final Button buttonOff = findViewById(R.id.buttonOff);
         SeekBar seekBar = findViewById(R.id.seekBar);
         SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
+        final ImageButton disconnectIcon = findViewById(R.id.disconnectIcon);
 
 
-        mEndTime = System.currentTimeMillis() + mTimeLeftInMillis;
+        c_EndTime = System.currentTimeMillis() + c_TimeLeftInMillis;
 
-        myCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+        myCountDownTimer = new CountDownTimer(c_TimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mTimeLeftInMillis = millisUntilFinished;
+                c_TimeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
             }
 
@@ -562,6 +549,8 @@ public class MainActivity extends AppCompatActivity {
                 resetTimeButton.setEnabled(false);
                 setTimeButton.setEnabled(false);
                 startPauseTimeButton.setEnabled(false);
+                ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0xFF );
+                disconnectIcon.setEnabled(true);
 
 
             }
@@ -578,7 +567,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void resetTimer() {
-        mTimeLeftInMillis = mStartTimeInMillis;
+        c_TimeLeftInMillis = c_StartTimeInMillis;
         updateCountDownText();
         updateWatchInterface();
 
@@ -588,9 +577,9 @@ public class MainActivity extends AppCompatActivity {
 
         String timeLeftFormatted;
 
-        int hours = (int) (mTimeLeftInMillis / 1000) / 3600;
-        int minutes = (int) ((mTimeLeftInMillis / 1000) % 3600) / 60;
-        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+        int hours = (int) (c_TimeLeftInMillis / 1000) / 3600;
+        int minutes = (int) ((c_TimeLeftInMillis / 1000) % 3600) / 60;
+        int seconds = (int) (c_TimeLeftInMillis / 1000) % 60;
 
 
         if (hours > 0) {
@@ -616,13 +605,13 @@ public class MainActivity extends AppCompatActivity {
             setTimeButton.setVisibility(View.VISIBLE);
             startPauseTimeButton.setText("Start");
 
-            if (mTimeLeftInMillis < 1000) {
+            if (c_TimeLeftInMillis < 1000) {
                 startPauseTimeButton.setVisibility(View.VISIBLE);
             } else {
                 startPauseTimeButton.setVisibility(View.VISIBLE);
             }
 
-            if (mTimeLeftInMillis < mStartTimeInMillis) {
+            if (c_TimeLeftInMillis < c_StartTimeInMillis) {
                 resetTimeButton.setVisibility(View.VISIBLE);
             } else {
                 resetTimeButton.setVisibility(View.VISIBLE);
@@ -638,10 +627,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        editor.putLong("startTimeInMillis", mStartTimeInMillis);
-        editor.putLong("millisLeft", mTimeLeftInMillis);
+        editor.putLong("startTimeInMillis", c_StartTimeInMillis);
+        editor.putLong("millisLeft", c_TimeLeftInMillis);
         editor.putBoolean("timerRunning", countDownTimerRunning);
-        editor.putLong("endTime", mEndTime);
+        editor.putLong("endTime", c_EndTime);
 
         editor.apply();
 
@@ -656,19 +645,19 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
 
-        mStartTimeInMillis = prefs.getLong("startTimeInMillis", 600000);
-        mTimeLeftInMillis = prefs.getLong("millisLeft", mStartTimeInMillis);
+        c_StartTimeInMillis = prefs.getLong("startTimeInMillis", 600000);
+        c_TimeLeftInMillis = prefs.getLong("millisLeft", c_StartTimeInMillis);
         countDownTimerRunning = prefs.getBoolean("timerRunning", false);
 
         updateCountDownText();
         updateWatchInterface();
 
         if (countDownTimerRunning) {
-            mEndTime = prefs.getLong("endTime", 0);
-            mTimeLeftInMillis = mEndTime - System.currentTimeMillis();
+            c_EndTime = prefs.getLong("endTime", 0);
+            c_TimeLeftInMillis = c_EndTime - System.currentTimeMillis();
 
-            if (mTimeLeftInMillis < 0) {
-                mTimeLeftInMillis = 0;
+            if (c_TimeLeftInMillis < 0) {
+                c_TimeLeftInMillis = 0;
                 countDownTimerRunning = false;
                 updateCountDownText();
                 updateWatchInterface();
