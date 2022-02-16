@@ -43,6 +43,7 @@ import java.io.OutputStream;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import de.nitri.gauge.Gauge;
 
@@ -299,6 +300,8 @@ public class MainActivity extends AppCompatActivity {
             resetTimeButton.setEnabled(true);
             setTimeButton.setEnabled(true);
             startPauseTimeButton.setEnabled(true);
+            ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0x3F);
+            disconnectIcon.setEnabled(false);
 
 
 
@@ -332,6 +335,9 @@ public class MainActivity extends AppCompatActivity {
                 DirectionText.setText("Off");
                 buttonOn.setEnabled(true);
                 buttonOff.setEnabled(false);
+
+                ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0xFF );
+                disconnectIcon.setEnabled(true);
 
                 /* Set seekbar status for both forward and reverse to 0 upon turning off */
 
