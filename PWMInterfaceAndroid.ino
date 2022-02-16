@@ -53,13 +53,15 @@ void loop() {
   attachInterrupt(1, isr, RISING);
   bluetoothSerial.println(rpm_val);
   delay(500);
+  //bluetoothSerial.print('#');
 
   value = analogRead(A0);
   voltage = value * 5.0/1023;
   Serial.print("Voltage= ");
   Serial.println(voltage);
   //bluetoothSerial.println(voltage );
-  delay(500);
+  //bluetoothSerial.print('~');
+  //delay(500);
   
   
   
