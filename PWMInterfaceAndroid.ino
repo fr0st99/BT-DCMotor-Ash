@@ -2,6 +2,7 @@
 
 #include<SoftwareSerial.h>
 SoftwareSerial bluetoothSerial(4,5);
+const byte interruptPin = 2;
 
 
 String msg,cmd,sendmsg;
@@ -33,7 +34,7 @@ void setup() {
   // Initialization
     Serial.begin(9600); // Communication rate of the Bluetooth Module
     msg = "";
-    attachInterrupt(1, isr, RISING);
+    attachInterrupt(digitalPinToInterrupt(interruptPin), isr, RISING);
     bluetoothSerial.begin(9600);
     pinMode(pwm1,   OUTPUT);
     pinMode(pwm2,   OUTPUT);
@@ -49,7 +50,7 @@ void loop() {
   prev = millis();                  
   rev = 0;
   Serial.println(rpm_val);
-  attachInterrupt(1, isr, RISING);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), isr, RISING);
   bluetoothSerial.println(rpm_val);
 
   //bluetoothSerial.print('#');
