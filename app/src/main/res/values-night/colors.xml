@@ -6,7 +6,9 @@
     <color name="colorOff">#FFFFFF</color>
     <color name="colorOn">#E040FB</color>
 
-    <color name="backgroundColor">#3D334E</color>
+    <color name="backgroundColor">#232323</color>
     <color name="textColor">#FFFFFF</color>
+    <color name="bannerColor">#083146</color>
+    <color name="buttonColor">#0D4968</color>
 
 </resources>

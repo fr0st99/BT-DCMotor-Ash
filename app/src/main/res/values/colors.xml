@@ -8,5 +8,7 @@
 
     <color name="backgroundColor">#FCFCFC</color>
     <color name="textColor">#505050</color>
+    <color name="bannerColor">#005335</color>
+    <color name="buttonColor">#01a951</color>
 
 </resources>

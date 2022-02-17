@@ -44,7 +44,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#005335"
+        android:background="@color/bannerColor"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +63,7 @@
         android:layout_marginTop="104dp"
         android:text="Turn On"
         android:textSize="24sp"
-        app:backgroundTint="#01a951"
+        app:backgroundTint="@color/buttonColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +77,7 @@
         android:layout_marginTop="172dp"
         android:text="Turn Off"
         android:textSize="24sp"
-        app:backgroundTint="#01a951"
+        app:backgroundTint="@color/buttonColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +118,7 @@
         android:layout_marginTop="1072dp"
         android:text="About"
         android:textSize="14sp"
-        app:backgroundTint="#01a951"
+        app:backgroundTint="@color/buttonColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -275,7 +275,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="3250"
+        android:text="3450"
         android:textColor="@color/textColor"
         android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -319,11 +319,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonOff"
 
-        gauge:initialValue="22"
-        gauge:maxValue="3300"
+        gauge:initialValue="25"
+        gauge:maxValue="3450"
         gauge:minValue="0"
         gauge:totalNicks="120"
-        gauge:valuePerNick="32" />
+        gauge:valuePerNick="30" />
 
     <EditText
         android:id="@+id/edit_text_input"
@@ -351,7 +351,7 @@
         android:layout_marginTop="24dp"
         android:layout_toEndOf="@+id/edit_text_input"
         android:text="Set"
-        app:backgroundTint="#01a951"
+        app:backgroundTint="@color/buttonColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edit_text_input" />
@@ -379,8 +379,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:text="start"
-
-        app:backgroundTint="#01a951"
+        app:backgroundTint="@color/buttonColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.301"
         app:layout_constraintLeft_toRightOf="@id/button_set"
@@ -396,7 +395,7 @@
         android:layout_toEndOf="@+id/button_start_pause"
         android:text="reset"
         android:visibility="visible"
-        app:backgroundTint="#01a951"
+        app:backgroundTint="@color/buttonColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.697"
         app:layout_constraintRight_toLeftOf="@id/button_set"

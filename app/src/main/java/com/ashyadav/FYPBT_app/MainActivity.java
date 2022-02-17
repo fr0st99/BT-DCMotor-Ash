@@ -173,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
         seekBarReverse.setEnabled(false);
         disconnectIcon.setEnabled(false);
         ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0x3F);
+        darkModeToggle.setEnabled(true);
+        darkModeToggle.setAlpha(1.0F);
 
         /**************************************Dark Mode Toggle *************************************************/
 
@@ -250,6 +252,11 @@ public class MainActivity extends AppCompatActivity {
                             disconnectIcon.setEnabled(true);
                             buttonOn.setEnabled(true);
                             buttonOff.setEnabled(false);
+                            connectIcon.setEnabled(false);
+
+                            darkModeToggle.setEnabled(false);
+                            darkModeToggle.setAlpha(.5f);
+
                             successMP.start();
 
                             /* Seek bar for DC motor control enabler */
@@ -270,6 +277,8 @@ public class MainActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.GONE);
                             connectIcon.setEnabled(true);
                             failMP.start();
+                            darkModeToggle.setEnabled(true);
+                            darkModeToggle.setAlpha(1.0F);
                             break;
                     }
                 }
@@ -286,6 +295,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, BTConnectActivity.class);
             startActivity(intent);
             ((ImageButton) findViewById(R.id.connectIcon)).setImageAlpha(0x3F);
+            darkModeToggle.setEnabled(true);
+            darkModeToggle.setAlpha(1.0F);
 
 
 
@@ -305,14 +316,18 @@ public class MainActivity extends AppCompatActivity {
             startPauseTimeButton.setEnabled(false);
             resetTimeButton.setEnabled(false);
             buttonOn.setEnabled(false);
-
-
-
             seekBar.setProgress(0);
             seekBar.setEnabled(false);
             seekBarReverse.setProgress(0);
             seekBarReverse.setEnabled(false);
+            darkModeToggle.setEnabled(true);
+            darkModeToggle.setAlpha(1.0F);
             disconnected.start();
+
+            cancelTimer();
+            resetTimer();
+
+
 
 
 
@@ -343,6 +358,14 @@ public class MainActivity extends AppCompatActivity {
             startPauseTimeButton.setEnabled(true);
             ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0x3F);
             disconnectIcon.setEnabled(false);
+            connectIcon.setEnabled(false);
+
+            /* Dark Mode controls */
+
+            darkModeToggle.setEnabled(false);
+            darkModeToggle.setAlpha(.5f);
+
+
 
 
 
@@ -379,6 +402,7 @@ public class MainActivity extends AppCompatActivity {
 
                 ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0xFF );
                 disconnectIcon.setEnabled(true);
+                connectIcon.setEnabled(false);
 
                 /* Set seekbar status for both forward and reverse to 0 upon turning off */
 
@@ -401,6 +425,9 @@ public class MainActivity extends AppCompatActivity {
                 // Send command to Arduino board
                 assert cmdText != null;
                 connectedThread.write(cmdText);
+                cancelTimer();
+                resetTimer();
+
             }
         });
 
@@ -616,6 +643,19 @@ public class MainActivity extends AppCompatActivity {
         updateWatchInterface();
     }
 
+    private void cancelTimer() {
+
+
+        if (countDownTimerRunning) {
+            myCountDownTimer.cancel();
+            updateWatchInterface();
+
+        } else {
+            updateWatchInterface();
+
+        }
+    }
+
     private void pauseTimer() {
         myCountDownTimer.cancel();
         countDownTimerRunning = false;
@@ -780,7 +820,7 @@ public class MainActivity extends AppCompatActivity {
                 String cmdText = "<turn off>";
                 assert cmdText != null; // Required to prevent crashes upon accidental drop as it attempts to send a BT command when BT not connected.
                 connectedThread.write(cmdText);
-                onStop();
+                cancelTimer();
                 resetTimer();
 
                 beepSound.start();
