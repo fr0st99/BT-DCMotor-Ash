@@ -10,5 +10,7 @@
     <color name="textColor">#FFFFFF</color>
     <color name="bannerColor">#083146</color>
     <color name="buttonColor">#0D4968</color>
+    <color name="hintColor">#FCFCFC</color>
+    <color name="progressBar">#FCFCFC</color>
 
 </resources>
