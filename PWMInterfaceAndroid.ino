@@ -22,13 +22,11 @@ float voltage;
 #define pwm2    11   //input 1
 
 
-
 void isr()
 {
   rev++;
   
 }
-
 
 void setup() {
   // Initialization
