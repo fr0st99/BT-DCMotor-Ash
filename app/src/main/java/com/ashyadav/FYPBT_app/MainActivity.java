@@ -43,6 +43,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
@@ -95,15 +96,8 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // prevent timeout or screen off during operation
-
-
-
-
-
 
 
         BroadcastReceiver msgReceiver = new BroadcastReceiver() {
@@ -113,7 +107,14 @@ public class MainActivity extends AppCompatActivity {
                 String rpmValue = intent.getStringExtra("RPM Data");
                 Log.d("receiver", "Received data  " + rpmValue);
                 TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
+                TextView freqValue = findViewById(R.id.freqVal);
                 RPMDisplay.setText(rpmValue);
+                float rpmInt = Integer.parseInt(rpmValue.trim());
+                float freq = (rpmInt / 60);
+                double freqRounded = Math.round(freq * 100.0) / 100.0;
+                String freqString = String.valueOf(freqRounded);
+                freqValue.setText(freqString +"Hz");
+
 
                 rpmGauge = findViewById(R.id.gauge);
 
@@ -435,6 +436,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* About app button */
         aboutButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, AboutApp.class)));
+
 
         /* Change Value of DC motor speed by slider from 0-255 FORWARD POSITION */
 
@@ -786,7 +788,7 @@ public class MainActivity extends AppCompatActivity {
 
             Acceleration = Acceleration * 0.9f + delta;
 
-            if (Acceleration > 14) {
+            if (Acceleration > 18) {
 
                 final MediaPlayer beepSound = MediaPlayer.create(MainActivity.this,R.raw.beep);
 

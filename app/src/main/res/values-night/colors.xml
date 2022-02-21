@@ -12,5 +12,6 @@
     <color name="buttonColor">#0D4968</color>
     <color name="hintColor">#FCFCFC</color>
     <color name="progressBar">#FCFCFC</color>
+    <color name="faceColor">#0D4968</color>
 
 </resources>

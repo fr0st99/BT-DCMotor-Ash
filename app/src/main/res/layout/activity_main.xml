@@ -115,7 +115,7 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="120dp"
         android:layout_height="57dp"
-        android:layout_marginTop="1072dp"
+        android:layout_marginTop="1160dp"
         android:text="About"
         android:textSize="14sp"
         app:backgroundTint="@color/buttonColor"
@@ -150,6 +150,20 @@
         app:layout_constraintHorizontal_bias="0.919"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
+        android:id="@+id/freqVal"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="328dp"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/textColor"
+        android:textSize="20pt"
+        gauge:layout_constraintEnd_toEndOf="parent"
+        gauge:layout_constraintHorizontal_bias="0.919"
+        gauge:layout_constraintStart_toStartOf="parent"
+        gauge:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
     <TextView
         android:id="@+id/RPMDisplayCounter"
@@ -194,6 +208,20 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
     <TextView
+        android:id="@+id/freqDisplay"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="328dp"
+        android:gravity="center"
+        android:text="Frequency:"
+        android:textColor="@color/textColor"
+        android:textSize="13pt"
+        gauge:layout_constraintEnd_toEndOf="parent"
+        gauge:layout_constraintHorizontal_bias="0.554"
+        gauge:layout_constraintStart_toStartOf="parent"
+        gauge:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
         android:id="@+id/Dir"
         android:layout_width="214dp"
         android:layout_height="72dp"
@@ -211,12 +239,13 @@
         android:id="@+id/seekBar"
         android:layout_width="682dp"
         android:layout_height="27dp"
-        android:layout_marginTop="368dp"
-        android:progressBackgroundTint="@color/progressBar"
+        android:layout_marginTop="460dp"
         android:max="255"
         android:min="0"
         android:progress="0"
+        android:progressBackgroundTint="@color/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.601"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonOff" />
 
@@ -277,7 +306,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="3450"
+        android:text="3100"
         android:textColor="@color/textColor"
         android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -312,18 +341,25 @@
 
     <de.nitri.gauge.Gauge
         android:id="@+id/gauge"
-        android:layout_width="218dp"
-        android:layout_height="220dp"
+        android:layout_width="272dp"
+        android:layout_height="255dp"
         android:layout_gravity="center"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintHorizontal_bias="0.108"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonOff"
 
-        gauge:initialValue="25"
-        gauge:maxValue="3450"
+
+        gauge:faceColor="@color/faceColor"
+        gauge:initialValue="0"
+        gauge:lowerText="RPM"
+        gauge:maxValue="3100"
         gauge:minValue="0"
+
+        gauge:needleShadow="true"
+        gauge:scaleColor="@color/textColor"
+        gauge:textSize="15"
         gauge:totalNicks="120"
         gauge:valuePerNick="30" />
 
