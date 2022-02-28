@@ -156,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
         final Button buttonOn = findViewById(R.id.buttonOn);
         final Button buttonOff = findViewById(R.id.buttonOff);
         final TextView PWMText = findViewById(R.id.PWMValue);
-        final Button aboutButton = findViewById(R.id.aboutButton);
         SeekBar seekBar = findViewById(R.id.seekBar);
         SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
 
@@ -432,10 +431,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-        /* About app button */
-        aboutButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, AboutApp.class)));
 
 
         /* Change Value of DC motor speed by slider from 0-255 FORWARD POSITION */
@@ -1007,9 +1002,8 @@ public class MainActivity extends AppCompatActivity {
         if (createConnectThread != null){
             createConnectThread.cancel();
         }
-        Intent a = new Intent(Intent.ACTION_MAIN);
-        a.addCategory(Intent.CATEGORY_HOME);
-        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(a);
+        this.startActivity(new Intent(MainActivity.this,IntroActivity.class));
+
+        return;
     }
 }

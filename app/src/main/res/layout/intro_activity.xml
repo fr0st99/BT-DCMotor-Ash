@@ -69,6 +69,19 @@
 
                 <Space
                     android:layout_width="wrap_content"
+                    android:layout_height="52dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/aboutButton"
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:backgroundTint="#005337"
+                    android:text="About" />
+
+                <Space
+                    android:layout_width="wrap_content"
                     android:layout_height="49dp"
                     android:layout_weight="1" />
             </LinearLayout>

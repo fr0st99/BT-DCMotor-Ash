@@ -18,6 +18,7 @@ public class IntroActivity extends AppCompatActivity {
 
     EditText nameField;
     Button buttonStart;
+    Button aboutButton;
     SharedPreferences sharedPreferences;
 
 
@@ -31,6 +32,10 @@ public class IntroActivity extends AppCompatActivity {
 
         buttonStart = findViewById(R.id.startButton);
         nameField = findViewById(R.id.usernamefield);
+        aboutButton = findViewById(R.id.aboutButton);
+
+        /* About app button */
+        aboutButton.setOnClickListener(view -> startActivity(new Intent(IntroActivity.this, AboutApp.class)));
 
         buttonStart.setOnClickListener(v -> {
 
