@@ -322,6 +322,8 @@ public class MainActivity extends AppCompatActivity {
             seekBarReverse.setEnabled(false);
             darkModeToggle.setEnabled(true);
             darkModeToggle.setAlpha(1.0F);
+            connectIcon.setEnabled(true);
+            connectIcon.setAlpha(1.0F);
             disconnected.start();
 
             cancelTimer();
