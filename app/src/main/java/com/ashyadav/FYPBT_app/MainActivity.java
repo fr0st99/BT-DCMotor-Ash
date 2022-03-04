@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -125,6 +127,14 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+
+
+
+
 
         LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver, new IntentFilter("rpmData"));
 
@@ -479,7 +489,10 @@ public class MainActivity extends AppCompatActivity {
             String progressValue = null;
             String cmdText = null;
 
+
             public void onProgressChanged(SeekBar seekBarReverse, int progress, boolean fromUser) {
+
+
                 Integer temp = progress;
                 progressValue = temp.toString();
                 PWMText.setText(progressValue);
@@ -560,7 +573,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
     /**************************************END OF ON CREATE *************************************************/
+
+
 
 
     /* Timer Methods */

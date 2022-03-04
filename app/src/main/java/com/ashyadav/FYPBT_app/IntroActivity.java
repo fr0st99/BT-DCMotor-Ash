@@ -1,14 +1,17 @@
 package com.ashyadav.FYPBT_app;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 /* Code Adapted from my 2nd year final project for ED5042 */
@@ -20,7 +23,6 @@ public class IntroActivity extends AppCompatActivity {
     Button buttonStart;
     Button aboutButton;
     SharedPreferences sharedPreferences;
-
 
 
     @Override
@@ -37,7 +39,10 @@ public class IntroActivity extends AppCompatActivity {
         /* About app button */
         aboutButton.setOnClickListener(view -> startActivity(new Intent(IntroActivity.this, AboutApp.class)));
 
+
+
         buttonStart.setOnClickListener(v -> {
+
 
 
             sharedPreferences = getSharedPreferences("username", Context.MODE_PRIVATE);
@@ -51,11 +56,39 @@ public class IntroActivity extends AppCompatActivity {
 
             } else {
 
-                startActivity(new Intent(IntroActivity.this, MainActivity.class));
-                finish();
+                showIntroMessage();
+
             }
         });
 
+
+
     }
+
+    public void showIntroMessage() {
+        
+        new AlertDialog.Builder(IntroActivity.this)
+                .setTitle("Welcome to DC Motor Genie")
+                .setMessage("Instructions: \n" +
+                        "1) Connect to Bluetooth \n" +
+                        "2) Turn on DC motor \n" +
+                        "3) All functions will become available \n" +
+                        "\n" +
+                        "App developed by Ashutosh Yadav Student ID: 18249094 \n")
+                .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                        finish();
+                    }
+                })
+                .create().show();
+
+
+
+    }
+
+
 
 }
