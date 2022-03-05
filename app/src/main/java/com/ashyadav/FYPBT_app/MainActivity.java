@@ -868,6 +868,8 @@ public class MainActivity extends AppCompatActivity {
 
     /* Resources used for this section of code: https://examples.javacodegeeks.com/android/android-bluetooth-connection-example/
 
+    https://developer.android.com/guide/topics/connectivity/bluetooth/find-bluetooth-devices
+
     https://stackoverflow.com/questions/8802157/how-to-use-localbroadcastmanager
 
     Credit to CodingWithMitch YouTube tutorial on threads and Bluetooth Connections https://www.youtube.com/watch?v=lwBhDnvKGd8
@@ -877,7 +879,6 @@ public class MainActivity extends AppCompatActivity {
 
     /* Creating Bluetooth connection */
     public class CreateConnectThread extends Thread {
-
 
         public CreateConnectThread(BluetoothAdapter bluetoothAdapter, String address) {
 
@@ -896,12 +897,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void run() {
-            /* Cancel discovery otherwise connection slows down */
 
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             bluetoothAdapter.cancelDiscovery();
             try {
-
                 mmSocket.connect();
                 Log.e("Status", "Device connected");
                 handler.obtainMessage(CONNECTING_STATUS, 1, -1).sendToTarget();
