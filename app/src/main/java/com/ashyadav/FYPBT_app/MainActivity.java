@@ -402,7 +402,7 @@ public class MainActivity extends AppCompatActivity {
             numberPicker.setEnabled(false);
             setRPM.setEnabled(false);
             disconnected.start();
-            requestedRPM.setText(" 0");
+            requestedRPM.setText("0");
 
             cancelTimer();
             resetTimer();
@@ -507,7 +507,7 @@ public class MainActivity extends AppCompatActivity {
 
                 numberPicker.setEnabled(false);
                 setRPM.setEnabled(false);
-                requestedRPM.setText(" 0");
+                requestedRPM.setText("0");
 
 
                 if ("turn off".equals(buttonStatus)) {
@@ -788,7 +788,7 @@ public class MainActivity extends AppCompatActivity {
                 updateWatchInterface();
 
                 Toast.makeText(getApplicationContext(), "DC Motor Off, Job completed.", Toast.LENGTH_LONG).show();
-                requestedRPM.setText(" 0");
+                requestedRPM.setText("0");
                 String cmdText = "<turn off>";
                 assert cmdText != null;
                 connectedThread.write(cmdText);

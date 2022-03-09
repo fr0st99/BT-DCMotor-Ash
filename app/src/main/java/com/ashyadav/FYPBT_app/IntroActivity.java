@@ -71,8 +71,12 @@ public class IntroActivity extends AppCompatActivity {
                 .setTitle("Welcome to DC Motor Genie")
                 .setMessage("Instructions: \n" +
                         "1) Connect to Bluetooth \n" +
+                        "\n"+
                         "2) Turn on DC motor \n" +
+                        "\n"+
                         "3) All functions will become available \n" +
+                        "\n" +
+                        "4) Pre-set speeds are hardcoded and proof of concept only (no active feedback loop) \n" +
                         "\n" +
                         "App developed by Ashutosh Yadav Student ID: 18249094 \n")
                 .setPositiveButton("Continue", new DialogInterface.OnClickListener() {

@@ -10,6 +10,9 @@
     </string>
     <string name="circuitschematic">Circuit Schematic</string>
     <string name="please_enter_your_name">Please enter your name</string>
+    <string name="variation">Variation (%):</string>
+    <string name="requested_rpm">Requested RPM:</string>
+    <string name="set_rpm">Set RPM</string>
 
 
 </resources>
