@@ -18,8 +18,8 @@ int value = 0;
 float voltage;
 
 
-#define pwm1     10   //input 2
-#define pwm2    11   //input 1
+#define pwm1     9   
+#define pwm2     10 
 
 
 void isr()
@@ -91,13 +91,70 @@ void loop() {
     msg = ""; 
   }
 
+  // Speed adjustment 
+
+  if (msg.substring(0,15) == "<request value>"){
+    int requestedSpeed = msg.substring(15).toInt();
+    Serial.println(requestedSpeed);
+    
+    msg = ""; 
+
+      
+  }
+
+  if (msg == "<request value 3000>"){
+    analogWrite(pwm1, 255);
+    analogWrite(pwm2,0);
+    msg = ""; 
+    }
+
+    if (msg == "<request value 2500>"){
+    analogWrite(pwm1, 200);
+    analogWrite(pwm2,0);
+    msg = ""; 
+    }
+
+    if (msg == "<request value 2000>"){
+    analogWrite(pwm1, 150);
+    analogWrite(pwm2,0);
+    msg = ""; 
+    }
+
+    if (msg == "<request value 1500>"){
+    analogWrite(pwm1, 120);
+    analogWrite(pwm2,0);
+    msg = ""; 
+    }
+
+    if (msg == "<request value 1000>"){
+    analogWrite(pwm1, 90);
+    analogWrite(pwm2,0);
+    msg = ""; 
+    }
+
+    if (msg == "<request value 500>"){
+    analogWrite(pwm1, 73);
+    analogWrite(pwm2,0);
+    msg = ""; 
+    }
+
+    if (msg == "<request value 0>"){
+    analogWrite(pwm1, 0);
+    analogWrite(pwm2,0);
+    }
+
+  
+
+   
+  
+
 
 
 
 
   // Turn on DC motor in Arduino board
   if (msg == "<turn on>"){
-    analogWrite(pwm1, 20);
+    analogWrite(pwm1, 0);
     Serial.println("DC motor is ON\n");
     msg = ""; // reset command
   } else {
