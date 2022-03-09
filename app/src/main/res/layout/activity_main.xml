@@ -126,34 +126,6 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
     <TextView
-        android:id="@+id/PWMValue"
-        android:layout_width="214dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="256dp"
-        android:gravity="center"
-        android:text="0"
-        android:textColor="@color/textColor"
-        android:textSize="20pt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.919"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
-
-    <TextView
-        android:id="@+id/freqVal"
-        android:layout_width="214dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="328dp"
-        android:gravity="center"
-        android:text="0"
-        android:textColor="@color/textColor"
-        android:textSize="20pt"
-        gauge:layout_constraintEnd_toEndOf="parent"
-        gauge:layout_constraintHorizontal_bias="0.919"
-        gauge:layout_constraintStart_toStartOf="parent"
-        gauge:layout_constraintTop_toBottomOf="@+id/buttonOn" />
-
-    <TextView
         android:id="@+id/RPMDisplayCounter"
         android:layout_width="214dp"
         android:layout_height="72dp"
@@ -168,10 +140,66 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
     <TextView
-        android:id="@+id/DirDisplay"
+        android:id="@+id/RequestedRPMText"
         android:layout_width="214dp"
         android:layout_height="72dp"
         android:layout_marginTop="184dp"
+        android:gravity="center"
+        android:text="Requested RPM"
+        android:textColor="@color/textColor"
+        android:textSize="13pt"
+        gauge:layout_constraintEnd_toEndOf="parent"
+        gauge:layout_constraintHorizontal_bias="0.554"
+        gauge:layout_constraintStart_toStartOf="parent"
+        gauge:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
+        android:id="@+id/variationText"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="256dp"
+        android:gravity="center"
+        android:text="Variation (%)"
+        android:textColor="@color/textColor"
+        android:textSize="13pt"
+        gauge:layout_constraintEnd_toEndOf="parent"
+        gauge:layout_constraintHorizontal_bias="0.554"
+        gauge:layout_constraintStart_toStartOf="parent"
+        gauge:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
+        android:id="@+id/requestedRPM"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="184dp"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/textColor"
+        android:textSize="20pt"
+        gauge:layout_constraintEnd_toEndOf="parent"
+        gauge:layout_constraintHorizontal_bias="0.919"
+        gauge:layout_constraintStart_toStartOf="parent"
+        gauge:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
+        android:id="@+id/variationValue"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="256dp"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/textColor"
+        android:textSize="20pt"
+        gauge:layout_constraintEnd_toEndOf="parent"
+        gauge:layout_constraintHorizontal_bias="0.919"
+        gauge:layout_constraintStart_toStartOf="parent"
+        gauge:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
+        android:id="@+id/DirDisplay"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="328dp"
         android:gravity="center"
         android:text="@string/DirDisplay"
         android:textColor="@color/textColor"
@@ -182,10 +210,24 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
     <TextView
+        android:id="@+id/freqVal"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="472dp"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/textColor"
+        android:textSize="20pt"
+        gauge:layout_constraintEnd_toEndOf="parent"
+        gauge:layout_constraintHorizontal_bias="0.919"
+        gauge:layout_constraintStart_toStartOf="parent"
+        gauge:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
         android:id="@+id/pwmDisplay"
         android:layout_width="214dp"
         android:layout_height="72dp"
-        android:layout_marginTop="256dp"
+        android:layout_marginTop="400dp"
         android:gravity="center"
         android:text="@string/PWMDisplay"
         android:textColor="@color/textColor"
@@ -196,10 +238,24 @@
         app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
 
     <TextView
+        android:id="@+id/PWMValue"
+        android:layout_width="214dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="400dp"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/textColor"
+        android:textSize="20pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.919"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonOn" />
+
+    <TextView
         android:id="@+id/freqDisplay"
         android:layout_width="214dp"
         android:layout_height="72dp"
-        android:layout_marginTop="328dp"
+        android:layout_marginTop="472dp"
         android:gravity="center"
         android:text="Frequency:"
         android:textColor="@color/textColor"
@@ -213,7 +269,7 @@
         android:id="@+id/Dir"
         android:layout_width="214dp"
         android:layout_height="72dp"
-        android:layout_marginTop="184dp"
+        android:layout_marginTop="328dp"
         android:gravity="center"
         android:text="Off"
         android:textColor="@color/textColor"
@@ -227,7 +283,7 @@
         android:id="@+id/seekBar"
         android:layout_width="682dp"
         android:layout_height="27dp"
-        android:layout_marginTop="460dp"
+        android:layout_marginTop="564dp"
         android:max="255"
         android:min="0"
         android:progress="0"
@@ -466,6 +522,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.002" />
+
+    <EditText
+        android:id="@+id/rpmInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="636dp"
+        android:hint="0-3100"
+        android:inputType="number"
+        android:textColor="@color/textColor"
+        android:textColorHint="@color/hintColor"
+        android:textSize="15pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gauge" />
+
+    <Button
+        android:id="@+id/setRPM"
+        android:layout_width="118dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="496dp"
+        android:text="Set RPM"
+        app:backgroundTint="@color/buttonColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gauge" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -94,12 +94,23 @@ public class MainActivity extends AppCompatActivity {
     public static ConnectedThread connectedThread;
     public static CreateConnectThread createConnectThread;
 
+    /* Input RPM */
+
+    public EditText inputRPM;
+    private TextView requestedRPM;
+
+
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
 
     protected void onCreate(Bundle savedInstanceState) {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // prevent timeout or screen off during operation
+
+
+
+
+
 
 
         BroadcastReceiver msgReceiver = new BroadcastReceiver() {
@@ -111,11 +122,54 @@ public class MainActivity extends AppCompatActivity {
                 TextView RPMDisplay = findViewById(R.id.RPMDisplayMain);
                 TextView freqValue = findViewById(R.id.freqVal);
                 RPMDisplay.setText(rpmValue);
+
+
                 float rpmInt = Integer.parseInt(rpmValue.trim());
                 float freq = (rpmInt / 60);
                 double freqRounded = Math.round(freq * 100.0) / 100.0;
                 String freqString = String.valueOf(freqRounded);
                 freqValue.setText(freqString +"Hz");
+
+                /* RPM Compare */
+
+                /*******************************************************************************/
+
+                String rrpm = requestedRPM.getText().toString();
+                int rrpmInt = Integer.parseInt(rrpm.trim());
+                float percentage =rrpmInt / rpmInt * 100;
+                float percentError = 100 - percentage;
+                double percentErrorRounded = Math.round(percentError * 100.0) / 100.0;
+
+                Log.d("aValue", "Real RPM   " + rpmInt);
+                Log.d("rValue", "Requested RPM   " + rrpmInt);
+                Log.d("error percentage", "Error percentage   " + percentErrorRounded);
+
+                TextView variationPercent = findViewById(R.id.variationValue);
+                variationPercent.setText(percentErrorRounded+"%");
+
+
+                /* RPM Adjustment */
+
+
+
+                    if (rrpmInt > rpmInt) {
+
+
+
+
+                    } else if (rrpmInt < rpmInt){
+
+
+
+
+
+                }
+
+
+
+
+
+                /*******************************************************************************/
 
 
                 rpmGauge = findViewById(R.id.gauge);
@@ -168,6 +222,9 @@ public class MainActivity extends AppCompatActivity {
         final TextView PWMText = findViewById(R.id.PWMValue);
         SeekBar seekBar = findViewById(R.id.seekBar);
         SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
+        final Button setRPM = findViewById(R.id.setRPM);
+        inputRPM = findViewById(R.id.rpmInput);
+        requestedRPM = findViewById(R.id.requestedRPM);
 
 
 
@@ -439,6 +496,26 @@ public class MainActivity extends AppCompatActivity {
                 connectedThread.write(cmdText);
                 cancelTimer();
                 resetTimer();
+
+            }
+        });
+
+
+        /* Set RPM */
+
+
+        setRPM.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+
+                if(inputRPM != null) {
+                    String value = inputRPM.getText().toString();
+
+                    requestedRPM.setText(value);
+
+                }
+
+
 
             }
         });
