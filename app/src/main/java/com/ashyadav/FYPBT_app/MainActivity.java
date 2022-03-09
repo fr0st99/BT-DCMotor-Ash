@@ -49,6 +49,7 @@ import java.text.DecimalFormat;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import de.nitri.gauge.Gauge;
 
@@ -156,11 +157,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+                        //connectedThread.write();
 
                     } else if (rrpmInt < rpmInt){
 
 
-
+                        //connectedThread.write();
 
 
                 }
@@ -507,11 +509,13 @@ public class MainActivity extends AppCompatActivity {
         setRPM.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
+                String cmdText = null;
 
                 if(inputRPM != null) {
                     String value = inputRPM.getText().toString();
-
                     requestedRPM.setText(value);
+                    cmdText = "<request value>" + value + "\n";
+                    connectedThread.write(cmdText);
 
                 }
 
