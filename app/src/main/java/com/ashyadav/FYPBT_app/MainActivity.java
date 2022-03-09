@@ -29,6 +29,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -225,8 +226,11 @@ public class MainActivity extends AppCompatActivity {
         SeekBar seekBar = findViewById(R.id.seekBar);
         SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
         final Button setRPM = findViewById(R.id.setRPM);
-        inputRPM = findViewById(R.id.rpmInput);
         requestedRPM = findViewById(R.id.requestedRPM);
+        NumberPicker numberPicker = findViewById(R.id.number_picker);
+
+
+
 
 
 
@@ -244,6 +248,8 @@ public class MainActivity extends AppCompatActivity {
         ((ImageButton) findViewById(R.id.disconnectIcon)).setImageAlpha(0x3F);
         darkModeToggle.setEnabled(true);
         darkModeToggle.setAlpha(1.0F);
+        numberPicker.setEnabled(false);
+        setRPM.setEnabled(false);
 
         /**************************************Dark Mode Toggle *************************************************/
 
@@ -393,7 +399,10 @@ public class MainActivity extends AppCompatActivity {
             darkModeToggle.setAlpha(1.0F);
             connectIcon.setEnabled(true);
             connectIcon.setAlpha(1.0F);
+            numberPicker.setEnabled(false);
+            setRPM.setEnabled(false);
             disconnected.start();
+            requestedRPM.setText(" 0");
 
             cancelTimer();
             resetTimer();
@@ -435,6 +444,11 @@ public class MainActivity extends AppCompatActivity {
 
             darkModeToggle.setEnabled(false);
             darkModeToggle.setAlpha(.5f);
+
+            /* Pre-set controls */
+
+            numberPicker.setEnabled(true);
+            setRPM.setEnabled(true);
 
 
 
@@ -489,6 +503,12 @@ public class MainActivity extends AppCompatActivity {
                 setTimeButton.setEnabled(false);
                 startPauseTimeButton.setEnabled(false);
 
+                /* Pre-set controls */
+
+                numberPicker.setEnabled(false);
+                setRPM.setEnabled(false);
+                requestedRPM.setText(" 0");
+
 
                 if ("turn off".equals(buttonStatus)) {
                     cmdText = "<turn off>";
@@ -502,28 +522,86 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /********************************************************************************/
 
-        /* Set RPM */
-
+        /* RPM pre-set picker */
+        String[] data = new String[]{"0","500", "1000", "1500", "2000", "2500", "3000"};
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(data.length-1);
+        numberPicker.setDisplayedValues(data);
+        numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        numberPicker.setWrapSelectorWheel(true);
 
         setRPM.setOnClickListener(new View.OnClickListener() {
 
+            String cmdText = null;
+            final TextView DirectionText = findViewById(R.id.Dir);
+
+            @Override
             public void onClick(View view) {
-                String cmdText = null;
+                int pos = numberPicker.getValue();
+                String selectPicker = data[pos];
+                requestedRPM.setText(selectPicker);
 
-                if(inputRPM != null) {
-                    String value = inputRPM.getText().toString();
-                    requestedRPM.setText(value);
-                    cmdText = "<request value>" + value + "\n";
-                    connectedThread.write(cmdText);
+                if(selectPicker == "3000"){
+                    cmdText = "<request value 3000>";
+                    seekBar.setProgress(255);
+                    PWMText.setText("255");
+                    DirectionText.setText("Forward");
 
+                }else if(selectPicker == "2500"){
+                    PWMText.setText("200");
+                    seekBar.setProgress(200);
+                    cmdText = "<request value 2500>";
+                    DirectionText.setText("Forward");
+
+                }else if(selectPicker == "2000") {
+                    PWMText.setText("150");
+                    seekBar.setProgress(150);
+                    cmdText = "<request value 2000>";
+                    DirectionText.setText("Forward");
+
+                }else if(selectPicker == "1500") {
+                    PWMText.setText("120");
+                    seekBar.setProgress(120);
+                    cmdText = "<request value 1500>";
+                    DirectionText.setText("Forward");
+
+                }else if(selectPicker == "1000") {
+                    PWMText.setText("90");
+                    seekBar.setProgress(90);
+                    cmdText = "<request value 1000>";
+                    DirectionText.setText("Forward");
+
+                }else if(selectPicker == "500") {
+                    PWMText.setText("73");
+                    seekBar.setProgress(73);
+                    cmdText = "<request value 500>";
+                    DirectionText.setText("Forward");
+
+                }else if(selectPicker == "0") {
+                    PWMText.setText("0");
+                    seekBar.setProgress(0);
+                    cmdText = "<request value 0>";
+                    DirectionText.setText("Forward");
                 }
+
+                System.out.println(cmdText);
+
+
+
+                connectedThread.write(cmdText);
 
 
 
             }
         });
 
+
+
+
+
+        /********************************************************************************/
 
 
         /* Change Value of DC motor speed by slider from 0-255 FORWARD POSITION */
@@ -710,6 +788,7 @@ public class MainActivity extends AppCompatActivity {
                 updateWatchInterface();
 
                 Toast.makeText(getApplicationContext(), "DC Motor Off, Job completed.", Toast.LENGTH_LONG).show();
+                requestedRPM.setText(" 0");
                 String cmdText = "<turn off>";
                 assert cmdText != null;
                 connectedThread.write(cmdText);

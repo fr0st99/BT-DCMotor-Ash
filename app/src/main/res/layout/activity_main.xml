@@ -10,6 +10,8 @@
     tools:context=".MainActivity">
 
 
+
+
     <TextView
         android:id="@+id/userNameText"
         android:layout_width="200dp"
@@ -173,7 +175,7 @@
         android:layout_height="72dp"
         android:layout_marginTop="184dp"
         android:gravity="center"
-        android:text="0"
+        android:text=" 0"
         android:textColor="@color/textColor"
         android:textSize="20pt"
         gauge:layout_constraintEnd_toEndOf="parent"
@@ -187,7 +189,7 @@
         android:layout_height="72dp"
         android:layout_marginTop="256dp"
         android:gravity="center"
-        android:text="0"
+        android:text=" 0"
         android:textColor="@color/textColor"
         android:textSize="20pt"
         gauge:layout_constraintEnd_toEndOf="parent"
@@ -215,7 +217,7 @@
         android:layout_height="72dp"
         android:layout_marginTop="472dp"
         android:gravity="center"
-        android:text="0"
+        android:text=" 0"
         android:textColor="@color/textColor"
         android:textSize="20pt"
         gauge:layout_constraintEnd_toEndOf="parent"
@@ -243,7 +245,7 @@
         android:layout_height="72dp"
         android:layout_marginTop="400dp"
         android:gravity="center"
-        android:text="0"
+        android:text=" 0"
         android:textColor="@color/textColor"
         android:textSize="20pt"
         app:layout_constraintEnd_toEndOf="parent"
@@ -350,7 +352,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="3100"
+        android:text="3000"
         android:textColor="@color/textColor"
         android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -445,7 +447,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="44dp"
         android:text="00:00"
         android:textColor="@color/textColor"
         android:textSize="60sp"
@@ -523,17 +525,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.002" />
 
-    <EditText
-        android:id="@+id/rpmInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="636dp"
-        android:hint="0-3100"
-        android:inputType="number"
+
+    <NumberPicker
+        android:id="@+id/number_picker"
+        android:layout_width="257dp"
+        android:layout_height="93dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="484dp"
         android:textColor="@color/textColor"
-        android:textColorHint="@color/hintColor"
-        android:textSize="15pt"
+        android:textSize="30pt"
+        android:theme="@style/NumberPickerText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/gauge" />
 
@@ -541,8 +542,8 @@
         android:id="@+id/setRPM"
         android:layout_width="118dp"
         android:layout_height="56dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="496dp"
+        android:layout_marginTop="104dp"
+        android:layout_marginEnd="556dp"
         android:text="Set RPM"
         app:backgroundTint="@color/buttonColor"
         app:layout_constraintEnd_toEndOf="parent"

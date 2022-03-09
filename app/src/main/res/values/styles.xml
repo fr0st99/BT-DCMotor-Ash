@@ -18,6 +18,11 @@
 
     </style>
 
+    <style name="NumberPickerText">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColorPrimary">@color/textColor</item>
+    </style>
+
 
 
 </resources>
