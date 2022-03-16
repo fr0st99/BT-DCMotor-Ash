@@ -589,7 +589,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println(cmdText);
 
 
-
+                seekBarReverse.setProgress(0);
                 connectedThread.write(cmdText);
 
 
@@ -760,6 +760,8 @@ public class MainActivity extends AppCompatActivity {
         SeekBar seekBar = findViewById(R.id.seekBar);
         SeekBar seekBarReverse = findViewById(R.id.seekBarReverse);
         final ImageButton disconnectIcon = findViewById(R.id.disconnectIcon);
+        NumberPicker numberPicker = findViewById(R.id.number_picker);
+        final Button setRPM = findViewById(R.id.setRPM);
 
 
         c_EndTime = System.currentTimeMillis() + c_TimeLeftInMillis;
@@ -789,6 +791,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "DC Motor Off, Job completed.", Toast.LENGTH_LONG).show();
                 requestedRPM.setText("0");
+                numberPicker.setEnabled(false);
+                setRPM.setEnabled(false);
                 String cmdText = "<turn off>";
                 assert cmdText != null;
                 connectedThread.write(cmdText);
@@ -972,6 +976,8 @@ public class MainActivity extends AppCompatActivity {
                 final TextView DirectionText = findViewById(R.id.Dir);
                 final Button buttonOn = findViewById(R.id.buttonOn);
                 final Button buttonOff = findViewById(R.id.buttonOff);
+                NumberPicker numberPicker = findViewById(R.id.number_picker);
+                final Button setRPM = findViewById(R.id.setRPM);
 
 
                 Toast toast = Toast.makeText(getApplicationContext(), "Fall Detected! DC Motor turned off", Toast.LENGTH_LONG);
@@ -990,6 +996,11 @@ public class MainActivity extends AppCompatActivity {
                 resetTimeButton.setEnabled(false);
                 setTimeButton.setEnabled(false);
                 startPauseTimeButton.setEnabled(false);
+                requestedRPM.setText("0");
+                numberPicker.setEnabled(false);
+                setRPM.setEnabled(false);
+
+
 
                 // Send command to Arduino board
 
